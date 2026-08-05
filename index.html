@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAPEM — Circuitos Eléctricos Avanzados</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f0f4f0;min-height:100vh;padding:1rem}
+#app{max-width:680px;margin:0 auto}
+.hdr{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;background:white;border-radius:12px;padding:1rem;border:1px solid #e0e0e0}
+.logo{width:36px;height:36px;border-radius:8px;background:#006633;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo svg{width:20px;height:20px;fill:white}
+.hdr-txt h1{font-size:16px;font-weight:600;color:#111}
+.hdr-txt p{font-size:12px;color:#666}
+.save-tag{margin-left:auto;font-size:11px;padding:3px 10px;border-radius:99px;background:#e8f5e9;color:#2e7d32;white-space:nowrap;border:1px solid #c8e6c9}
+.pb-wrap{background:#e0e0e0;border-radius:99px;height:8px;margin-bottom:4px}
+.pb-fill{height:8px;border-radius:99px;background:#006633;transition:width .4s}
+.pb-lbl{font-size:11px;color:#666;margin-bottom:1.25rem}
+.ch-tabs{display:flex;gap:6px;margin-bottom:1rem;overflow-x:auto;padding-bottom:4px}
+.ch-tab{font-size:12px;padding:6px 16px;border-radius:99px;border:1px solid #ddd;background:white;color:#666;cursor:pointer;white-space:nowrap;transition:all .2s;font-weight:500}
+.ch-tab:hover{background:#f5f5f5;border-color:#bbb}
+.ch-tab.active{background:#006633;color:white;border-color:#006633}
+.ch-tab.locked{opacity:.4;cursor:not-allowed}
+.panel{background:white;border:1px solid #e0e0e0;border-radius:12px;padding:1.25rem}
+.sec-tabs{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.sec-btn{font-size:12px;padding:5px 14px;border-radius:99px;border:1px solid #ddd;background:transparent;color:#666;cursor:pointer;transition:all .2s;font-weight:500}
+.sec-btn:hover{background:#f5f5f5}
+.sec-btn.active{background:#006633;color:white;border-color:#006633}
+.sec{display:none}.sec.on{display:block}
+.ttl{font-size:15px;font-weight:600;color:#111;margin-bottom:.75rem}
+.body{font-size:13px;color:#555;line-height:1.75;margin-bottom:.75rem}
+.fbox{background:#f5f9f5;border-left:3px solid #006633;border-radius:0 8px 8px 0;padding:.65rem 1rem;margin:.65rem 0;font-family:monospace;font-size:13px;color:#111}
+.tip{background:#f9fbe7;border:1px solid #e6ee9c;border-radius:8px;padding:.65rem 1rem;font-size:12px;color:#555;margin:.65rem 0}
+.tip strong{color:#111;font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.75rem 0}
+.card{background:#f5f5f5;border-radius:8px;padding:.75rem}
+.card-lbl{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;font-weight:700}
+.card-val{font-size:22px;font-weight:600;color:#111}
+.card-unit{font-size:11px;color:#888}
+.atom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:.75rem 0}
+.atom-card{background:#f5f9f5;border:1px solid #e0ede0;border-radius:8px;padding:.75rem;text-align:center}
+.atom-icon{font-size:22px;margin-bottom:4px}
+.atom-name{font-weight:600;color:#111;font-size:13px}
+.atom-desc{font-size:11px;color:#888;margin-top:3px;line-height:1.4}
+.mat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#333}
+.mat-row:last-child{border-bottom:none}
+.tag{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600}
+.tag-c{background:#e8f5e9;color:#2e7d32}
+.tag-a{background:#ffebee;color:#c62828}
+.tag-s{background:#fff8e1;color:#e65100}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:.75rem 0}
+.prod-card{background:#f5f9f5;border:1px solid #e0ede0;border-radius:8px;padding:.65rem .85rem;font-size:12px;color:#555}
+.prod-name{font-weight:600;color:#111;display:block;margin-bottom:2px}
+.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.s-lbl{font-size:12px;color:#555;width:120px;flex-shrink:0}
+.s-val{font-size:13px;font-weight:600;color:#111;width:60px;text-align:right}
+input[type=range]{flex:1;accent-color:#006633}
+.hearts{display:flex;gap:4px;margin-bottom:.75rem}
+.streak-bar{display:flex;align-items:center;gap:6px;margin-bottom:.75rem;font-size:12px;color:#555}
+.streak-bar strong{color:#111;font-size:14px}
+.q-num{font-size:11px;color:#888;margin-bottom:.75rem;font-weight:500}
+.q-txt{font-size:14px;font-weight:600;color:#111;margin-bottom:1rem;line-height:1.55}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem}
+.opt{font-size:12px;padding:.7rem .85rem;border-radius:8px;border:1px solid #ddd;background:white;color:#333;cursor:pointer;text-align:left;line-height:1.4;transition:all .2s;font-weight:500}
+.opt:hover:not(:disabled){background:#f0f7f0;border-color:#006633}
+.opt.ok{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32;font-weight:600}
+.opt.no{background:#ffebee;border-color:#ef9a9a;color:#c62828;font-weight:600}
+.opt.show{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32;opacity:.65}
+.fb{border-radius:8px;padding:.75rem 1rem;font-size:13px;line-height:1.6;margin-bottom:.75rem;display:none}
+.fb.ok{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7}
+.fb.no{background:#ffebee;color:#b71c1c;border:1px solid #ef9a9a}
+.fb.on{display:block}
+.nxt{width:100%;padding:.75rem;border-radius:8px;border:none;background:#006633;color:white;font-size:14px;font-weight:600;cursor:pointer;display:none;margin-top:4px;transition:opacity .2s}
+.nxt:hover{opacity:.85}
+.nxt.on{display:block}
+.score-area{text-align:center;padding:2rem 0}
+.score-big{font-size:52px;font-weight:700;color:#006633}
+.score-sub{font-size:14px;color:#666;margin:.5rem 0 1.5rem}
+.badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.bdg{font-size:11px;padding:4px 12px;border-radius:99px;border:1px solid #ddd;color:#888;font-weight:500}
+.bdg.on{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}
+.btn-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.btn-sec{padding:.65rem 1.5rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#333;font-size:13px;cursor:pointer;font-weight:500;transition:all .2s}
+.btn-sec:hover{background:#f5f5f5}
+.btn-pri{padding:.65rem 1.5rem;border-radius:8px;border:none;background:#006633;color:white;font-size:13px;cursor:pointer;font-weight:600;transition:opacity .2s}
+.btn-pri:hover{opacity:.85}
+.hist-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.hist-row:last-child{border-bottom:none}
+.hist-sc{font-weight:600;color:#111}
+.hist-dt{color:#888;font-size:11px;margin-top:2px}
+.pct-tag{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600}
+.pg{background:#e8f5e9;color:#2e7d32}
+.pm{background:#fff8e1;color:#e65100}
+.pb2{background:#ffebee;color:#c62828}
+.reset-lnk{font-size:11px;color:#888;cursor:pointer;text-decoration:underline;margin-top:12px;display:inline-block}
+.empty{font-size:13px;color:#888;padding:1rem 0}
+.lock-msg{text-align:center;padding:2rem 1rem;color:#888;font-size:13px}
+.lock-msg strong{display:block;font-size:15px;color:#333;margin-bottom:.5rem}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <div class="logo"><svg viewBox="0 0 24 24"><path d="M13 3L4 14h7l-1 7 9-11h-7l1-7z"/></svg></div>
+    <div class="hdr-txt">
+      <h1>Circuitos Eléctricos Avanzados</h1>
+      <p>Ing. Salvador González &middot; LAPEM / CFE</p>
+    </div>
+    <span class="save-tag" id="saveTag">&#10003; Guardado</span>
+  </div>
+
+  <div class="pb-wrap"><div class="pb-fill" id="pbFill" style="width:2%"></div></div>
+  <div class="pb-lbl" id="pbLbl">Progreso general: empieza el Cap. 1</div>
+
+  <div class="ch-tabs">
+    <button class="ch-tab active" onclick="showCh(0,this)">Cap. 1 &mdash; Electricidad</button>
+    <button class="ch-tab locked" id="ch1tab">Cap. 2 &mdash; CD</button>
+    <button class="ch-tab locked" id="ch2tab">Cap. 3 &mdash; CA</button>
+    <button class="ch-tab" onclick="showCh(3,this)">Historial</button>
+  </div>
+
+  <!-- CAP 1 -->
+  <div class="panel" id="ch0">
+    <div class="sec-tabs">
+      <button class="sec-btn active" onclick="showSec(0,'a',this)">Lecci&oacute;n</button>
+      <button class="sec-btn" onclick="showSec(0,'b',this)">Interactivo</button>
+      <button class="sec-btn" onclick="showSec(0,'c',this)">Pr&aacute;ctica</button>
+    </div>
+    <div class="sec on" id="s0a">
+      <div class="ttl">Cap. 1 &mdash; &iquest;Qu&eacute; es la electricidad?</div>
+      <div class="body">La electricidad es el flujo de <strong>electrones</strong> a trav&eacute;s de un conductor. Todo parte del &aacute;tomo &mdash; la unidad m&iacute;nima de la materia.</div>
+      <div class="atom-grid">
+        <div class="atom-card"><div class="atom-icon">&#8853;</div><div class="atom-name">Prot&oacute;n</div><div class="atom-desc">Carga positiva (+)<br>Est&aacute; en el n&uacute;cleo</div></div>
+        <div class="atom-card"><div class="atom-icon">&#9711;</div><div class="atom-name">Neutr&oacute;n</div><div class="atom-desc">Carga neutra<br>Est&aacute; en el n&uacute;cleo</div></div>
+        <div class="atom-card"><div class="atom-icon">&#8854;</div><div class="atom-name">Electr&oacute;n</div><div class="atom-desc">Carga negativa (&minus;)<br>Orbita el n&uacute;cleo</div></div>
+      </div>
+      <div class="tip"><strong>Dato clave del libro:</strong> el electr&oacute;n es 1836 veces m&aacute;s ligero que el prot&oacute;n. Por eso es m&aacute;s f&aacute;cil de mover &mdash; y eso es la corriente el&eacute;ctrica.</div>
+      <div class="ttl" style="margin-top:1rem">1.1 &mdash; 6 formas de producir electricidad</div>
+      <div class="prod-grid">
+        <div class="prod-card"><span class="prod-name">1. Frotamiento</span>electricidad est&aacute;tica</div>
+        <div class="prod-card"><span class="prod-name">2. Magnetismo</span>generadores CFE</div>
+        <div class="prod-card"><span class="prod-name">3. Acci&oacute;n qu&iacute;mica</span>pilas y bater&iacute;as</div>
+        <div class="prod-card"><span class="prod-name">4. Luz</span>celdas fotovoltaicas</div>
+        <div class="prod-card"><span class="prod-name">5. Calor</span>termopares</div>
+        <div class="prod-card"><span class="prod-name">6. Presi&oacute;n</span>efecto piezoel&eacute;ctrico</div>
+      </div>
+      <div class="ttl" style="margin-top:1rem">1.3 &mdash; Conductores, aisladores y semiconductores</div>
+      <div style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-bottom:.75rem">
+        <div class="mat-row" style="padding:8px 12px"><span>Oro, plata, cobre, aluminio</span><span class="tag tag-c">Conductor</span></div>
+        <div class="mat-row" style="padding:8px 12px"><span>Vidrio, pl&aacute;stico, hule, cer&aacute;mica</span><span class="tag tag-a">Aislador</span></div>
+        <div class="mat-row" style="padding:8px 12px"><span>Silicio (Si), Germanio (Ge), Galio (Ga)</span><span class="tag tag-s">Semiconductor</span></div>
+      </div>
+      <div class="tip"><strong>En CFE y LAPEM:</strong> el cobre se usa por econom&iacute;a. El aluminio en l&iacute;neas de transmisi&oacute;n. El aislamiento del cable determina el nivel de tensi&oacute;n que soporta.</div>
+      <div style="margin-top:1rem"><button class="btn-pri" style="width:100%" onclick="showSec(0,'c',document.querySelectorAll('#ch0 .sec-btn')[2])">Ir a pr&aacute;ctica &rarr;</button></div>
+    </div>
+    <div class="sec" id="s0b">
+      <div class="ttl">1.4 &mdash; Medici&oacute;n interactiva</div>
+      <div class="body">Mueve los sliders y observa c&oacute;mo se relacionan voltaje, resistencia y corriente &mdash; igual que en el mult&iacute;metro del libro.</div>
+      <div class="slider-row"><span class="s-lbl">Voltaje (V)</span><input type="range" min="1" max="240" value="12" step="1" oninput="calcOhm()"><span class="s-val" id="oV">12 V</span></div>
+      <div class="slider-row"><span class="s-lbl">Resistencia (&Omega;)</span><input type="range" min="1" max="500" value="6" step="1" oninput="calcOhm()"><span class="s-val" id="oR">6 &Omega;</span></div>
+      <div class="grid2">
+        <div class="card"><div class="card-lbl">Corriente</div><div class="card-val" id="oI">2.00</div><div class="card-unit">Amperes</div></div>
+        <div class="card"><div class="card-lbl">Potencia</div><div class="card-val" id="oP">24</div><div class="card-unit">Watts</div></div>
+      </div>
+      <div class="tip" id="oTip">El libro muestra un mult&iacute;metro midiendo 12V en una bater&iacute;a LTH &mdash; exactamente V=12, R=6 aqu&iacute;.</div>
+    </div>
+    <div class="sec" id="s0c"><div id="qArea0"></div></div>
+  </div>
+
+  <!-- CAP 2 -->
+  <div class="panel" id="ch1" style="display:none">
+    <div class="sec-tabs">
+      <button class="sec-btn active" onclick="showSec(1,'a',this)">Lecci&oacute;n</button>
+      <button class="sec-btn" onclick="showSec(1,'b',this)">Interactivo</button>
+      <button class="sec-btn" onclick="showSec(1,'c',this)">Pr&aacute;ctica</button>
+    </div>
+    <div class="sec on" id="s1a">
+      <div class="ttl">Cap. 2 &mdash; Circuitos El&eacute;ctricos de CD</div>
+      <div class="body">Un circuito el&eacute;ctrico necesita 4 elementos: <strong>Fuente de voltaje, Conductores, Carga e Interruptor.</strong></div>
+      <div class="ttl" style="margin-top:1rem">2.2 &mdash; C&oacute;digo de colores para resistencias</div>
+      <div class="fbox">Bandas A y B &rarr; cifras significativas<br>Banda C &rarr; multiplicador (10&sup n;)<br>Banda D &rarr; tolerancia (Dorado=&plusmn;5%, Plateado=&plusmn;10%)</div>
+      <div class="tip"><strong>Ejemplo:</strong> Caf&eacute;-Negro-Naranja-Dorado = 1, 0, &times;1000, &plusmn;5% = <strong>10,000 &Omega; &plusmn;5%</strong></div>
+      <div class="ttl" style="margin-top:1rem">2.3 vs 2.4 &mdash; Serie vs Paralelo</div>
+      <div class="grid2">
+        <div class="card"><div class="card-lbl">Serie</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">I igual en todo<br>V se divide<br>R_T = R1+R2+R3</div></div>
+        <div class="card"><div class="card-lbl">Paralelo</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">V igual en todo<br>I se divide<br>1/R_T = 1/R1+1/R2...</div></div>
+      </div>
+      <div class="tip"><strong>Mixto (2.5):</strong> reduce primero los grupos en paralelo, luego suma en serie.</div>
+      <div style="margin-top:1rem"><button class="btn-pri" style="width:100%" onclick="showSec(1,'c',document.querySelectorAll('#ch1 .sec-btn')[2])">Ir a pr&aacute;ctica &rarr;</button></div>
+    </div>
+    <div class="sec" id="s1b">
+      <div class="ttl">Explorador &mdash; circuito serie</div>
+      <div class="body">Simula el ejemplo del libro: tres resistencias en serie.</div>
+      <div class="slider-row"><span class="s-lbl">R1 (&Omega;)</span><input type="range" min="1" max="20" value="4" step="1" oninput="calcSerie()"><span class="s-val" id="sR1">4 &Omega;</span></div>
+      <div class="slider-row"><span class="s-lbl">R2 (&Omega;)</span><input type="range" min="1" max="20" value="4" step="1" oninput="calcSerie()"><span class="s-val" id="sR2">4 &Omega;</span></div>
+      <div class="slider-row"><span class="s-lbl">R3 (&Omega;)</span><input type="range" min="1" max="20" value="4" step="1" oninput="calcSerie()"><span class="s-val" id="sR3">4 &Omega;</span></div>
+      <div class="slider-row"><span class="s-lbl">Voltaje (V)</span><input type="range" min="1" max="240" value="12" step="1" oninput="calcSerie()"><span class="s-val" id="sVV">12 V</span></div>
+      <div class="grid2">
+        <div class="card"><div class="card-lbl">R total</div><div class="card-val" id="sRT">12</div><div class="card-unit">Ohms</div></div>
+        <div class="card"><div class="card-lbl">Corriente</div><div class="card-val" id="sI">1.00</div><div class="card-unit">Amperes</div></div>
+      </div>
+      <div class="tip" id="sTip">Con R1=R2=R3=4&Omega; y 12V &rarr; I=1A. Exacto al ejemplo del libro, p&aacute;g. 27.</div>
+    </div>
+    <div class="sec" id="s1c"><div id="qArea1"></div></div>
+  </div>
+
+  <!-- CAP 3 -->
+  <div class="panel" id="ch2" style="display:none">
+    <div class="sec-tabs">
+      <button class="sec-btn active" onclick="showSec(2,'a',this)">Lecci&oacute;n</button>
+      <button class="sec-btn" onclick="showSec(2,'c',this)">Pr&aacute;ctica</button>
+    </div>
+    <div class="sec on" id="s2a">
+      <div class="ttl">Cap. 3 &mdash; Circuitos de CA</div>
+      <div class="body">La corriente alterna cambia de direcci&oacute;n peri&oacute;dicamente. Es la que usa CFE en toda su red. El libro cubre tres elementos pasivos: R, L y C.</div>
+      <div class="grid2">
+        <div class="card"><div class="card-lbl">Resistencia (R)</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">&Aacute;ngulo 0&deg;<br>V e I en fase<br>Unidad: Ohms</div></div>
+        <div class="card"><div class="card-lbl">Inductancia (XL)</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">&Aacute;ngulo +90&deg;<br>V adelanta a I<br>XL = 2&pi;fL</div></div>
+        <div class="card"><div class="card-lbl">Capacitancia (XC)</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">&Aacute;ngulo &minus;90&deg;<br>I adelanta a V<br>XC = 1/2&pi;fC</div></div>
+        <div class="card"><div class="card-lbl">Impedancia (Z)</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">Combina R, L, C<br>Z = &radic;(R&sup2;+X&sup2;)<br>V = I &middot; Z</div></div>
+      </div>
+      <div class="fbox">Z = &radic;(R&sup2; + X&sup2;) &nbsp; donde X = XL &minus; XC<br>Ley de Ohm en CA: V = I &times; Z<br>cos &phi; = R / Z &nbsp;(factor de potencia)</div>
+      <div class="ttl" style="margin-top:1rem">3.10 &mdash; El Transformador</div>
+      <div class="body">El tema m&aacute;s importante para LAPEM. Cambia el nivel de voltaje usando inducci&oacute;n electromagn&eacute;tica.</div>
+      <div class="fbox">E = 4.44 &middot; f &middot; n &middot; &Phi; &nbsp;(ecuaci&oacute;n general)<br>a = VAT/VBT = IBT/IAT = NAT/NBT<br>P = V &middot; I &nbsp;(en VA o kVA)</div>
+      <div class="tip"><strong>Ejemplo del libro (p&aacute;g. 68):</strong> 15 kVA, 13,200V / 220V, Z%=4%<br>I_AT = 15,000 / (&radic;3 &times; 13,200) = <strong>0.656 A</strong><br>I_BT = 15,000 / (&radic;3 &times; 220) = <strong>39.36 A</strong></div>
+      <div style="margin-top:1rem"><button class="btn-pri" style="width:100%" onclick="showSec(2,'c',document.querySelectorAll('#ch2 .sec-btn')[1])">Ir a pr&aacute;ctica &rarr;</button></div>
+    </div>
+    <div class="sec" id="s2c"><div id="qArea2"></div></div>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="panel" id="ch3" style="display:none">
+    <div class="ttl">Historial de pr&aacute;ctica</div>
+    <div id="histList" style="margin-top:.75rem"></div>
+    <span class="reset-lnk" onclick="resetAll()">Borrar todo el progreso</span>
+  </div>
+</div>
+
+<script>
+const SK='lapem_gonzalez_v1';
+const QS={
+  0:[
+    {t:"¿Qué partícula tiene carga negativa y es responsable de la corriente eléctrica?",o:["Protón","Neutrón","Electrón","Fotón"],c:2,e:"El electrón tiene carga negativa y orbita el núcleo. Su movimiento ordenado es la corriente eléctrica."},
+    {t:"¿Cuántas formas elementales de producir electricidad lista el libro del Ing. González?",o:["4","5","6","8"],c:2,e:"El libro lista 6: frotamiento, magnetismo, acción química, luz, calor y presión."},
+    {t:"El cobre se usa en instalaciones eléctricas principalmente por...",o:["Ser el mejor conductor","Economía y disponibilidad","Resistir altas temperaturas","Ser más ligero"],c:1,e:"El libro indica: 'por economía se utilizan el cobre y el aluminio'. El mejor conductor es la plata, pero es cara."},
+    {t:"¿Cuál de estos materiales es un AISLADOR eléctrico?",o:["Cobre","Silicio","Aluminio","Vidrio"],c:3,e:"El libro menciona vidrio, hule, plástico y cerámica como aisladores. El silicio es semiconductor."},
+    {t:"Un ampere equivale a...",o:["1 volt / 1 ohm","1 coulomb / 1 segundo","1 watt / 1 volt","1 joule / 1 segundo"],c:1,e:"Del libro: Ampere = 1 coulomb / 1 segundo. Ley de Ampere: I = Carga / Tiempo."},
+    {t:"¿Qué tipo de central usa vapor del subsuelo para generar electricidad?",o:["Termoeléctrica","Geotermoeléctrica","Nucleoeléctrica","Carboeléctrica"],c:1,e:"Las plantas geotérmicas extraen agua caliente del subsuelo que se convierte en vapor para mover turbinas."}
+  ],
+  1:[
+    {t:"En un circuito SERIE con R1=4Ω, R2=4Ω, R3=4Ω y 12V (ejemplo del libro pág.27), ¿cuál es la corriente total?",o:["0.33 A","1 A","3 A","4 A"],c:1,e:"Rs = 4+4+4 = 12Ω. I = V/R = 12/12 = 1A. Ejemplo exacto del libro."},
+    {t:"¿Cuál es la característica principal de un circuito en PARALELO?",o:["La corriente es igual en todo","El voltaje es igual en todo","La resistencia total es mayor","Comparten la misma corriente"],c:1,e:"En paralelo: V1=V2=V3=V (mismo voltaje en todas las ramas). La corriente se divide."},
+    {t:"Una resistencia Café-Negro-Naranja-Dorado tiene valor de...",o:["1300 Ω ±5%","10000 Ω ±5%","103 Ω ±5%","130 Ω ±10%"],c:1,e:"Café=1, Negro=0, Naranja=×1000. Resultado: 10×1000=10,000Ω. Dorado=±5%."},
+    {t:"La Ley de Kirchhoff de voltajes (LVK) dice que en un lazo cerrado la suma algebraica de voltajes es...",o:["Igual a la resistencia total","Igual a la corriente máxima","Igual a cero","Igual al voltaje de la fuente"],c:2,e:"LVK: suma algebraica de caídas de voltaje en un lazo = 0. Es decir: V_fuente = V1+V2+V3."},
+    {t:"En un circuito MIXTO, ¿cuál es el primer paso para resolverlo?",o:["Calcular la corriente total","Reducir primero paralelo o serie","Aplicar Kirchhoff directo","Calcular la potencia total"],c:1,e:"El libro: 'resolver primero los elementos en serie y en paralelo para reducir a un circuito puro'."},
+    {t:"¿Cuánta potencia consume una resistencia de 6Ω con 2A circulando?",o:["12 W","24 W","3 W","36 W"],c:1,e:"P = I²×R = 4×6 = 24W. También: P = V×I = 12×2 = 24W."}
+  ],
+  2:[
+    {t:"En un circuito CA puramente inductivo, la corriente...",o:["Está en fase con el voltaje","Adelanta 90° al voltaje","Se retrasa 90° al voltaje","No tiene relación de fase"],c:2,e:"En un inductor puro, el voltaje adelanta 90° a la corriente. XL tiene ángulo +90°."},
+    {t:"La impedancia de un circuito R-L serie con R=3Ω y XL=4Ω es...",o:["7 Ω","1 Ω","5 Ω","12 Ω"],c:2,e:"Z = √(R²+XL²) = √(9+16) = √25 = 5Ω. Ejemplo del libro con circuito RL."},
+    {t:"El factor de potencia (cos φ) representa...",o:["Relación voltaje pico/RMS","Eficiencia en convertir energía en trabajo","Diferencia entre XL y XC","El ángulo en grados entre I y V"],c:1,e:"cos φ = R/Z. Factor de potencia = 1 significa que toda la potencia se convierte en trabajo útil."},
+    {t:"En el transformador del libro (15kVA, 13,200V primario), la corriente en alta tensión es...",o:["39.36 A","0.656 A","6.82 A","15 A"],c:1,e:"I_AT = P/(√3×V_AT) = 15,000/(√3×13,200) ≈ 0.656 A. Ejemplo exacto del libro pág. 68."},
+    {t:"En E = 4.44·f·n·Φ, ¿qué representa 'n'?",o:["La frecuencia en Hz","El número de vueltas del devanado","El flujo magnético en weber","La eficiencia del transformador"],c:1,e:"n = número de vueltas (espiras) del devanado. Más vueltas en el secundario = mayor voltaje de salida."},
+    {t:"La reactancia capacitiva XC cuando aumenta la frecuencia...",o:["Aumenta","Disminuye","No cambia","Se iguala a XL"],c:1,e:"XC = 1/(2πfC). Al aumentar f, XC disminuye — el capacitor deja pasar más fácil las frecuencias altas."}
+  ]
+};
+
+let st={cur:0,sc:0,hts:3,stk:0,ans:false,wr:[],hist:[],ch:0};
+
+function load(){try{const r=localStorage.getItem(SK);if(r){const s=JSON.parse(r);if(s.hist)st.hist=s.hist;updatePB();unlockTabs();}}catch(e){}}
+function save(){try{localStorage.setItem(SK,JSON.stringify({hist:st.hist}));const t=document.getElementById('saveTag');t.textContent='✓ '+new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+
+function updatePB(){
+  if(!st.hist.length){document.getElementById('pbLbl').textContent='Progreso general: empieza el Cap. 1';return;}
+  const bests=[0,1,2].map(ch=>{const h=st.hist.filter(x=>x.ch===ch);return h.length?Math.max(...h.map(x=>x.pct)):0;});
+  const avg=Math.round(bests.reduce((a,b)=>a+b,0)/3);
+  document.getElementById('pbFill').style.width=Math.max(2,avg)+'%';
+  document.getElementById('pbLbl').textContent='Progreso general: '+avg+'% promedio entre capítulos';
+}
+
+function unlockTabs(){
+  const b1=st.hist.find(h=>h.ch===0&&h.pct>=80);
+  const b2=st.hist.find(h=>h.ch===1&&h.pct>=80);
+  if(b1){const el=document.getElementById('ch1tab');el.classList.remove('locked');el.onclick=function(){showCh(1,this);};}
+  if(b2){const el=document.getElementById('ch2tab');el.classList.remove('locked');el.onclick=function(){showCh(2,this);};}
+}
+
+function showCh(i,btn){
+  ['ch0','ch1','ch2','ch3'].forEach((id,j)=>{document.getElementById(id).style.display=j===i?'block':'none';});
+  document.querySelectorAll('.ch-tab').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  st.ch=i;
+  if(i===3)renderHist();
+  else{resetQ();renderQ(i);}
+}
+
+function showSec(ch,s,btn){
+  const panel=document.getElementById('ch'+ch);
+  panel.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+  panel.querySelectorAll('.sec-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('s'+ch+s).classList.add('on');
+  if(btn)btn.classList.add('active');
+  if(s==='c')renderQ(ch);
+}
+
+function resetQ(){st.cur=0;st.sc=0;st.hts=3;st.stk=0;st.ans=false;st.wr=[];}
+
+function renderQ(ch){
+  const area=document.getElementById('qArea'+ch);
+  if(!area)return;
+  if(st.cur>=QS[ch].length){renderScore(area,ch);return;}
+  const q=QS[ch][st.cur];
+  const hh=Array.from({length:3},(_,i)=>'<span style="font-size:16px">'+(i<st.hts?'❤️':'🤍')+'</span>').join('');
+  area.innerHTML=`
+    <div class="hearts">${hh}</div>
+    <div class="streak-bar"><span style="font-size:16px">🔥</span><strong>${st.stk}</strong>&nbsp;racha correcta</div>
+    <div class="q-num">Pregunta ${st.cur+1} de ${QS[ch].length}</div>
+    <div class="q-txt">${q.t}</div>
+    <div class="opts" id="opts">${q.o.map((o,i)=>`<button class="opt" onclick="ansQ(${i},${ch})">${o}</button>`).join('')}</div>
+    <div class="fb" id="fb"></div>
+    <button class="nxt" id="nxt" onclick="nextQ(${ch})">${st.cur===QS[ch].length-1?'Ver resultados':'Siguiente pregunta'}</button>`;
+  st.ans=false;
+}
+
+function ansQ(i,ch){
+  if(st.ans)return;st.ans=true;
+  const q=QS[ch][st.cur];
+  const opts=document.querySelectorAll('.opt');
+  const fb=document.getElementById('fb');
+  const nxt=document.getElementById('nxt');
+  opts.forEach(b=>b.disabled=true);
+  if(i===q.c){opts[i].classList.add('ok');st.sc++;st.stk++;fb.className='fb ok on';fb.innerHTML='<strong>✓ Correcto!</strong> '+q.e;}
+  else{opts[i].classList.add('no');opts[q.c].classList.add('show');st.hts=Math.max(0,st.hts-1);st.stk=0;st.wr.push(st.cur);fb.className='fb no on';fb.innerHTML='<strong>✗ No exactamente.</strong> '+q.e;}
+  nxt.classList.add('on');
+}
+
+function nextQ(ch){st.cur++;renderQ(ch);}
+
+function renderScore(area,ch){
+  const pct=Math.round(st.sc/QS[ch].length*100);
+  const entry={ch,sc:st.sc,tot:QS[ch].length,pct,date:new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'}),time:new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})};
+  st.hist.unshift(entry);if(st.hist.length>30)st.hist=st.hist.slice(0,30);
+  save();updatePB();if(pct>=80)unlockTabs();
+  const msg=pct===100?'¡Perfecto!':pct>=80?'¡Muy bien!':pct>=60?'Buen intento':'Sigue practicando';
+  const chN=['Cap. 1','Cap. 2','Cap. 3'];
+  const badges=[{l:'Sin errores',on:st.wr.length===0},{l:'Racha x3',on:st.stk>=3},{l:chN[ch]+' hecho',on:true}];
+  const nextBtn=ch<2&&pct>=80?`<button class="btn-pri" onclick="document.querySelectorAll('.ch-tab')[${ch+1}].click()">Siguiente capítulo →</button>`:'';
+  area.innerHTML=`<div class="score-area">
+    <div class="score-big">${st.sc}/${QS[ch].length}</div>
+    <div class="score-sub">${msg} — ${pct}% de respuestas correctas</div>
+    <div class="badges">${badges.map(b=>`<span class="bdg ${b.on?'on':''}">${b.on?'✓ ':''}${b.l}</span>`).join('')}</div>
+    ${st.wr.length?`<p style="font-size:12px;color:#888;margin-bottom:1rem">${st.wr.length} error(es) — repasa esos temas en la lección.</p>`:''}
+    <div class="btn-row"><button class="btn-sec" onclick="resetQ();renderQ(${ch})">Repetir</button>${nextBtn}</div>
+  </div>`;
+}
+
+function renderHist(){
+  const el=document.getElementById('histList');
+  if(!st.hist.length){el.innerHTML='<p class="empty">Aún no has completado ninguna práctica.</p>';return;}
+  const chN=['Cap.1','Cap.2','Cap.3'];
+  el.innerHTML=st.hist.map(h=>`<div class="hist-row"><div><div class="hist-sc">${chN[h.ch]} — ${h.sc}/${h.tot} correctas</div><div class="hist-dt">${h.date} · ${h.time}</div></div><span class="pct-tag ${h.pct>=80?'pg':h.pct>=60?'pm':'pb2'}">${h.pct}%</span></div>`).join('');
+}
+
+function resetAll(){if(confirm('¿Borrar todo el progreso?')){st.hist=[];try{localStorage.removeItem(SK);}catch(e){}updatePB();renderHist();document.getElementById('ch1tab').classList.add('locked');document.getElementById('ch1tab').onclick=null;document.getElementById('ch2tab').classList.add('locked');document.getElementById('ch2tab').onclick=null;}}
+
+function calcOhm(){
+  const sliders=document.querySelectorAll('#s0b input[type=range]');
+  if(!sliders.length)return;
+  const v=+sliders[0].value,r=+sliders[1].value;
+  document.getElementById('oV').textContent=v+' V';
+  document.getElementById('oR').textContent=r+' Ω';
+  document.getElementById('oI').textContent=(v/r).toFixed(2);
+  document.getElementById('oP').textContent=Math.round(v*v/r);
+  document.getElementById('oTip').textContent=v===12&&r===6?'Igual al ejemplo del libro: batería LTH 12V con 6Ω. I = V/R = 2A.':'I = V/R = '+v+'/'+r+' = '+(v/r).toFixed(2)+' A. P = V²/R = '+Math.round(v*v/r)+' W.';
+}
+
+function calcSerie(){
+  const sliders=document.querySelectorAll('#s1b input[type=range]');
+  if(!sliders.length)return;
+  const r1=+sliders[0].value,r2=+sliders[1].value,r3=+sliders[2].value,v=+sliders[3].value;
+  const rt=r1+r2+r3;const i=v/rt;
+  document.getElementById('sR1').textContent=r1+' Ω';
+  document.getElementById('sR2').textContent=r2+' Ω';
+  document.getElementById('sR3').textContent=r3+' Ω';
+  document.getElementById('sVV').textContent=v+' V';
+  document.getElementById('sRT').textContent=rt;
+  document.getElementById('sI').textContent=i.toFixed(2);
+  document.getElementById('sTip').textContent=r1===4&&r2===4&&r3===4&&v===12?'¡Igual al ejemplo del libro! Rs=12Ω, I=1A. Página 27.':'Rs = '+r1+'+'+r2+'+'+r3+' = '+rt+'Ω. I = '+v+'/'+rt+' = '+i.toFixed(2)+'A.';
+}
+
+load();
+</script>
+</body>
+</html>
