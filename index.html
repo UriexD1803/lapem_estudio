@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f0f4f0;min-height:100vh;padding:1rem}
-#app{max-width:680px;margin:0 auto}
+#app{max-width:720px;margin:0 auto}
 .hdr{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;background:white;border-radius:12px;padding:1rem;border:1px solid #e0e0e0}
 .logo{width:36px;height:36px;border-radius:8px;background:#006633;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo svg{width:20px;height:20px;fill:white}
@@ -16,62 +16,101 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0f4f0;min-heigh
 .save-tag{margin-left:auto;font-size:11px;padding:3px 10px;border-radius:99px;background:#e8f5e9;color:#2e7d32;white-space:nowrap;border:1px solid #c8e6c9}
 .pb-wrap{background:#e0e0e0;border-radius:99px;height:8px;margin-bottom:4px}
 .pb-fill{height:8px;border-radius:99px;background:#006633;transition:width .4s}
-.pb-lbl{font-size:11px;color:#666;margin-bottom:1.25rem}
-.ch-tabs{display:flex;gap:6px;margin-bottom:1rem;overflow-x:auto;padding-bottom:4px}
-.ch-tab{font-size:12px;padding:6px 16px;border-radius:99px;border:1px solid #ddd;background:white;color:#666;cursor:pointer;white-space:nowrap;transition:all .2s;font-weight:500}
-.ch-tab:hover{background:#f5f5f5;border-color:#bbb}
+.pb-lbl{font-size:11px;color:#666;margin-bottom:1rem}
+.top-bar{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+.ch-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;flex:1}
+.ch-tab{font-size:12px;padding:6px 14px;border-radius:99px;border:1px solid #ddd;background:white;color:#666;cursor:pointer;white-space:nowrap;transition:all .2s;font-weight:500}
+.ch-tab:hover{background:#f5f5f5}
 .ch-tab.active{background:#006633;color:white;border-color:#006633}
-.ch-tab.locked{opacity:.4;cursor:not-allowed}
-.panel{background:white;border:1px solid #e0e0e0;border-radius:12px;padding:1.25rem}
+.mode-btn{font-size:11px;padding:5px 12px;border-radius:99px;border:1px solid #ccc;background:white;color:#555;cursor:pointer;white-space:nowrap}
+.mode-btn:hover{background:#f5f5f5}
+.free-banner{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:.6rem 1rem;font-size:12px;color:#795548;margin-bottom:1rem;display:none;align-items:center;gap:8px}
+.lock-banner{background:#fff3e0;border:1px solid #ffcc02;border-radius:8px;padding:.6rem 1rem;font-size:12px;color:#e65100;margin-bottom:1rem;display:none}
+.panel{background:white;border:1px solid #e0e0e0;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
 .sec-tabs{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
 .sec-btn{font-size:12px;padding:5px 14px;border-radius:99px;border:1px solid #ddd;background:transparent;color:#666;cursor:pointer;transition:all .2s;font-weight:500}
 .sec-btn:hover{background:#f5f5f5}
 .sec-btn.active{background:#006633;color:white;border-color:#006633}
+.sec-btn.opt{border-color:#ff9800;color:#e65100}
+.sec-btn.opt.active{background:#ff9800;border-color:#ff9800;color:white}
 .sec{display:none}.sec.on{display:block}
-.ttl{font-size:15px;font-weight:600;color:#111;margin-bottom:.75rem}
-.body{font-size:13px;color:#555;line-height:1.75;margin-bottom:.75rem}
-.fbox{background:#f5f9f5;border-left:3px solid #006633;border-radius:0 8px 8px 0;padding:.65rem 1rem;margin:.65rem 0;font-family:monospace;font-size:13px;color:#111}
-.tip{background:#f9fbe7;border:1px solid #e6ee9c;border-radius:8px;padding:.65rem 1rem;font-size:12px;color:#555;margin:.65rem 0}
-.tip strong{color:#111;font-weight:600}
+.ttl{font-size:15px;font-weight:600;color:#111;margin-bottom:.75rem;margin-top:1.25rem}
+.ttl:first-child{margin-top:0}
+.body{font-size:13px;color:#444;line-height:1.85;margin-bottom:.75rem}
+.fbox{background:#f5f9f5;border-left:3px solid #006633;border-radius:0 8px 8px 0;padding:.75rem 1rem;margin:.75rem 0;font-family:monospace;font-size:13px;color:#111;line-height:1.7}
+.tip{background:#f9fbe7;border:1px solid #e6ee9c;border-radius:8px;padding:.65rem 1rem;font-size:12px;color:#555;margin:.65rem 0;line-height:1.6}
+.tip strong{color:#333;font-weight:600}
+.warn{background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:.65rem 1rem;font-size:12px;color:#e65100;margin:.65rem 0;line-height:1.6}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.75rem 0}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:.75rem 0}
 .card{background:#f5f5f5;border-radius:8px;padding:.75rem}
 .card-lbl{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;font-weight:700}
-.card-val{font-size:22px;font-weight:600;color:#111}
+.card-val{font-size:20px;font-weight:600;color:#111}
 .card-unit{font-size:11px;color:#888}
-.atom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:.75rem 0}
-.atom-card{background:#f5f9f5;border:1px solid #e0ede0;border-radius:8px;padding:.75rem;text-align:center}
-.atom-icon{font-size:22px;margin-bottom:4px}
+.atom-card{background:#f5f9f5;border:1px solid #c8e6c9;border-radius:8px;padding:.75rem;text-align:center}
+.atom-icon{font-size:24px;margin-bottom:6px}
 .atom-name{font-weight:600;color:#111;font-size:13px}
-.atom-desc{font-size:11px;color:#888;margin-top:3px;line-height:1.4}
-.mat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#333}
-.mat-row:last-child{border-bottom:none}
-.tag{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600}
+.atom-desc{font-size:11px;color:#777;margin-top:4px;line-height:1.4}
+.table-wrap{overflow-x:auto;margin:.75rem 0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#006633;color:white;padding:8px 10px;text-align:left;font-weight:600}
+td{padding:7px 10px;border-bottom:1px solid #f0f0f0;color:#333;vertical-align:top}
+tr:nth-child(even) td{background:#f9f9f9}
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600;display:inline-block}
 .tag-c{background:#e8f5e9;color:#2e7d32}
 .tag-a{background:#ffebee;color:#c62828}
 .tag-s{background:#fff8e1;color:#e65100}
+.mat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#333}
+.mat-row:last-child{border-bottom:none}
 .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:.75rem 0}
-.prod-card{background:#f5f9f5;border:1px solid #e0ede0;border-radius:8px;padding:.65rem .85rem;font-size:12px;color:#555}
-.prod-name{font-weight:600;color:#111;display:block;margin-bottom:2px}
-.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.s-lbl{font-size:12px;color:#555;width:120px;flex-shrink:0}
-.s-val{font-size:13px;font-weight:600;color:#111;width:60px;text-align:right}
-input[type=range]{flex:1;accent-color:#006633}
+.prod-card{background:#f5f9f5;border:1px solid #c8e6c9;border-radius:8px;padding:.65rem .85rem;font-size:12px;color:#555}
+.prod-name{font-weight:600;color:#111;display:block;margin-bottom:2px;font-size:13px}
+.step{background:#f5f9f5;border-left:3px solid #006633;border-radius:0 8px 8px 0;padding:.75rem 1rem;margin:.5rem 0;font-size:13px;color:#333;line-height:1.7}
+.step-num{font-weight:700;color:#006633;margin-right:6px}
+.ex-box{background:#f0f7ff;border:1px solid #90caf9;border-radius:8px;padding:1rem;margin:.75rem 0}
+.ex-title{font-size:13px;font-weight:600;color:#1565c0;margin-bottom:.5rem}
+.ex-body{font-size:13px;color:#333;line-height:1.75}
+.ex-res{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:6px;padding:.5rem .75rem;margin-top:.5rem;font-size:13px;color:#1b5e20;font-weight:600}
+
+/* Ejercicios */
+.ej-bloque{margin-bottom:1.5rem}
+.ej-bloque-title{font-size:13px;font-weight:700;color:#006633;border-bottom:2px solid #006633;padding-bottom:4px;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.03em}
+.ej{background:#f9f9f9;border:1px solid #e0e0e0;border-radius:8px;padding:.85rem 1rem;margin-bottom:.75rem}
+.ej-num{font-size:11px;font-weight:700;color:#006633;margin-bottom:4px}
+.ej-txt{font-size:13px;color:#333;line-height:1.6;margin-bottom:.65rem}
+.ej-input{width:100%;padding:.5rem .75rem;border:1px solid #ddd;border-radius:6px;font-size:13px;margin-bottom:.5rem;outline:none}
+.ej-input:focus{border-color:#006633}
+.ej-btn{font-size:12px;padding:5px 14px;border-radius:6px;border:1px solid #006633;background:transparent;color:#006633;cursor:pointer;font-weight:500}
+.ej-btn:hover{background:#006633;color:white}
+.ej-fb{font-size:12px;padding:.5rem .75rem;border-radius:6px;margin-top:.5rem;display:none;line-height:1.5}
+.ej-fb.ok{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7}
+.ej-fb.no{background:#ffebee;color:#b71c1c;border:1px solid #ef9a9a}
+.ej-fb.on{display:block}
+.ej-opts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:.5rem}
+.ej-opt{font-size:12px;padding:.55rem .75rem;border-radius:6px;border:1px solid #ddd;background:white;color:#333;cursor:pointer;text-align:left;line-height:1.4;transition:all .2s}
+.ej-opt:hover:not(:disabled){background:#f0f7f0;border-color:#006633}
+.ej-opt.ok{background:#e8f5e9;border-color:#66bb6a;color:#1b5e20;font-weight:600}
+.ej-opt.no{background:#ffebee;border-color:#ef9a9a;color:#b71c1c}
+.ej-opt.show{background:#e8f5e9;border-color:#66bb6a;color:#1b5e20;opacity:.65}
+.ej-reset{font-size:11px;color:#888;cursor:pointer;text-decoration:underline;margin-top:4px;display:inline-block}
+
+/* Examen */
 .hearts{display:flex;gap:4px;margin-bottom:.75rem}
 .streak-bar{display:flex;align-items:center;gap:6px;margin-bottom:.75rem;font-size:12px;color:#555}
 .streak-bar strong{color:#111;font-size:14px}
-.q-num{font-size:11px;color:#888;margin-bottom:.75rem;font-weight:500}
+.q-num{font-size:11px;color:#888;margin-bottom:.65rem;font-weight:600}
 .q-txt{font-size:14px;font-weight:600;color:#111;margin-bottom:1rem;line-height:1.55}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem}
 .opt{font-size:12px;padding:.7rem .85rem;border-radius:8px;border:1px solid #ddd;background:white;color:#333;cursor:pointer;text-align:left;line-height:1.4;transition:all .2s;font-weight:500}
 .opt:hover:not(:disabled){background:#f0f7f0;border-color:#006633}
-.opt.ok{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32;font-weight:600}
-.opt.no{background:#ffebee;border-color:#ef9a9a;color:#c62828;font-weight:600}
-.opt.show{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32;opacity:.65}
+.opt.ok{background:#e8f5e9;border-color:#66bb6a;color:#1b5e20;font-weight:600}
+.opt.no{background:#ffebee;border-color:#ef9a9a;color:#b71c1c;font-weight:600}
+.opt.show{background:#e8f5e9;border-color:#66bb6a;color:#1b5e20;opacity:.65}
 .fb{border-radius:8px;padding:.75rem 1rem;font-size:13px;line-height:1.6;margin-bottom:.75rem;display:none}
 .fb.ok{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7}
 .fb.no{background:#ffebee;color:#b71c1c;border:1px solid #ef9a9a}
 .fb.on{display:block}
-.nxt{width:100%;padding:.75rem;border-radius:8px;border:none;background:#006633;color:white;font-size:14px;font-weight:600;cursor:pointer;display:none;margin-top:4px;transition:opacity .2s}
+.nxt{width:100%;padding:.75rem;border-radius:8px;border:none;background:#006633;color:white;font-size:14px;font-weight:600;cursor:pointer;display:none;margin-top:4px}
 .nxt:hover{opacity:.85}
 .nxt.on{display:block}
 .score-area{text-align:center;padding:2rem 0}
@@ -81,22 +120,24 @@ input[type=range]{flex:1;accent-color:#006633}
 .bdg{font-size:11px;padding:4px 12px;border-radius:99px;border:1px solid #ddd;color:#888;font-weight:500}
 .bdg.on{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}
 .btn-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.btn-sec{padding:.65rem 1.5rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#333;font-size:13px;cursor:pointer;font-weight:500;transition:all .2s}
+.btn-sec{padding:.65rem 1.5rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#333;font-size:13px;cursor:pointer;font-weight:500}
 .btn-sec:hover{background:#f5f5f5}
-.btn-pri{padding:.65rem 1.5rem;border-radius:8px;border:none;background:#006633;color:white;font-size:13px;cursor:pointer;font-weight:600;transition:opacity .2s}
+.btn-pri{padding:.65rem 1.5rem;border-radius:8px;border:none;background:#006633;color:white;font-size:13px;cursor:pointer;font-weight:600}
 .btn-pri:hover{opacity:.85}
-.hist-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.hist-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0}
 .hist-row:last-child{border-bottom:none}
-.hist-sc{font-weight:600;color:#111}
+.hist-sc{font-weight:600;color:#111;font-size:13px}
 .hist-dt{color:#888;font-size:11px;margin-top:2px}
 .pct-tag{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600}
 .pg{background:#e8f5e9;color:#2e7d32}
 .pm{background:#fff8e1;color:#e65100}
 .pb2{background:#ffebee;color:#c62828}
 .reset-lnk{font-size:11px;color:#888;cursor:pointer;text-decoration:underline;margin-top:12px;display:inline-block}
-.empty{font-size:13px;color:#888;padding:1rem 0}
-.lock-msg{text-align:center;padding:2rem 1rem;color:#888;font-size:13px}
-.lock-msg strong{display:block;font-size:15px;color:#333;margin-bottom:.5rem}
+.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.s-lbl{font-size:12px;color:#555;width:120px;flex-shrink:0}
+.s-val{font-size:13px;font-weight:600;color:#111;width:65px;text-align:right}
+input[type=range]{flex:1;accent-color:#006633}
+.opt-banner{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:.5rem .85rem;font-size:12px;color:#795548;margin-bottom:.75rem}
 </style>
 </head>
 <body>
@@ -109,191 +150,792 @@ input[type=range]{flex:1;accent-color:#006633}
     </div>
     <span class="save-tag" id="saveTag">&#10003; Guardado</span>
   </div>
-
   <div class="pb-wrap"><div class="pb-fill" id="pbFill" style="width:2%"></div></div>
   <div class="pb-lbl" id="pbLbl">Progreso general: empieza el Cap. 1</div>
-
-  <div class="ch-tabs">
-    <button class="ch-tab active" onclick="showCh(0,this)">Cap. 1 &mdash; Electricidad</button>
-    <button class="ch-tab locked" id="ch1tab">Cap. 2 &mdash; CD</button>
-    <button class="ch-tab locked" id="ch2tab">Cap. 3 &mdash; CA</button>
-    <button class="ch-tab" onclick="showCh(3,this)">Historial</button>
+  <div class="top-bar">
+    <div class="ch-tabs">
+      <button class="ch-tab active" onclick="showCh(0,this)">Cap. 1 &mdash; Electricidad</button>
+      <button class="ch-tab" id="ch1tab" onclick="showCh(1,this)">Cap. 2 &mdash; CD</button>
+      <button class="ch-tab" id="ch2tab" onclick="showCh(2,this)">Cap. 3 &mdash; CA</button>
+      <button class="ch-tab" onclick="showCh(3,this)">Historial</button>
+    </div>
+    <button class="mode-btn" id="modeBtn" onclick="toggleMode()">&#128275; Modo libre</button>
   </div>
+  <div class="free-banner" id="freeBanner">&#128275; <span><strong>Modo libre activo</strong> &mdash; puedes navegar sin restricciones.</span><button onclick="toggleMode()" style="margin-left:auto;font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid #bcaaa4;background:transparent;color:#795548;cursor:pointer">Desactivar</button></div>
+  <div class="lock-banner" id="lockBanner">&#128274; Cap&iacute;tulo bloqueado. Saca 80%+ en el anterior o activa <strong>Modo libre</strong>.</div>
 
   <!-- CAP 1 -->
   <div class="panel" id="ch0">
     <div class="sec-tabs">
-      <button class="sec-btn active" onclick="showSec(0,'a',this)">Lecci&oacute;n</button>
-      <button class="sec-btn" onclick="showSec(0,'b',this)">Interactivo</button>
-      <button class="sec-btn" onclick="showSec(0,'c',this)">Pr&aacute;ctica</button>
+      <button class="sec-btn active" onclick="showSec(0,'a',this)">Teor&iacute;a</button>
+      <button class="sec-btn" onclick="showSec(0,'b',this)">Ejemplos</button>
+      <button class="sec-btn opt" onclick="showSec(0,'c',this)">Pr&aacute;ctica &#9733;</button>
+      <button class="sec-btn" onclick="showSec(0,'d',this)">Examen</button>
     </div>
+
+    <!-- TEORÍA -->
     <div class="sec on" id="s0a">
-      <div class="ttl">Cap. 1 &mdash; &iquest;Qu&eacute; es la electricidad?</div>
-      <div class="body">La electricidad es el flujo de <strong>electrones</strong> a trav&eacute;s de un conductor. Todo parte del &aacute;tomo &mdash; la unidad m&iacute;nima de la materia.</div>
-      <div class="atom-grid">
-        <div class="atom-card"><div class="atom-icon">&#8853;</div><div class="atom-name">Prot&oacute;n</div><div class="atom-desc">Carga positiva (+)<br>Est&aacute; en el n&uacute;cleo</div></div>
-        <div class="atom-card"><div class="atom-icon">&#9711;</div><div class="atom-name">Neutr&oacute;n</div><div class="atom-desc">Carga neutra<br>Est&aacute; en el n&uacute;cleo</div></div>
-        <div class="atom-card"><div class="atom-icon">&#8854;</div><div class="atom-name">Electr&oacute;n</div><div class="atom-desc">Carga negativa (&minus;)<br>Orbita el n&uacute;cleo</div></div>
+      <div class="ttl">¿Qué es la electricidad?</div>
+      <div class="body">El libro presenta 5 perspectivas:</div>
+      <div style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin:.75rem 0">
+        <div class="mat-row"><span><strong>Los griegos:</strong> la llamaron Ámbar (Elektrón)</span></div>
+        <div class="mat-row"><span><strong>Benjamín Franklin:</strong> fluido de cargas positivas y negativas</span></div>
+        <div class="mat-row"><span><strong>Ciencia actual:</strong> se produce por electrones y protones</span></div>
+        <div class="mat-row"><span><strong>Los que la usamos:</strong> flujo de electrones que hace funcionar equipos</span></div>
+        <div class="mat-row"><span><strong>Los estudiosos:</strong> ciencia que estudia los fenómenos eléctricos</span></div>
       </div>
-      <div class="tip"><strong>Dato clave del libro:</strong> el electr&oacute;n es 1836 veces m&aacute;s ligero que el prot&oacute;n. Por eso es m&aacute;s f&aacute;cil de mover &mdash; y eso es la corriente el&eacute;ctrica.</div>
-      <div class="ttl" style="margin-top:1rem">1.1 &mdash; 6 formas de producir electricidad</div>
+
+      <div class="ttl">Teoría atómica</div>
+      <div class="body">La materia está formada por átomos. Cada átomo tiene tres partículas fundamentales:</div>
+      <div class="grid3">
+        <div class="atom-card"><div class="atom-icon">&#8853;</div><div class="atom-name">Protón</div><div class="atom-desc">Carga positiva (+)<br>Está en el núcleo<br>1836× más pesado que el electrón</div></div>
+        <div class="atom-card"><div class="atom-icon">&#9711;</div><div class="atom-name">Neutrón</div><div class="atom-desc">Carga neutra<br>Está en el núcleo<br>Formado por p⁺ + e⁻</div></div>
+        <div class="atom-card"><div class="atom-icon">&#8854;</div><div class="atom-name">Electrón</div><div class="atom-desc">Carga negativa (−)<br>Orbita el núcleo<br>El más fácil de mover</div></div>
+      </div>
+      <div class="tip"><strong>Ley de cargas eléctricas:</strong> cargas iguales se rechazan, cargas distintas se atraen.</div>
+      <div class="body">Los electrones se organizan en <strong>capas electrónicas</strong> alrededor del núcleo. El <strong>electrón de valencia</strong> — el de la capa más externa — es el que determina si un material conduce o no. El cobre (Cu) tiene solo 1 electrón de valencia, por eso es excelente conductor.</div>
+
+      <div class="ttl">1.1 Producción de electricidad</div>
+      <div class="body">El libro lista <strong>6 formas elementales</strong> de producir electricidad:</div>
       <div class="prod-grid">
-        <div class="prod-card"><span class="prod-name">1. Frotamiento</span>electricidad est&aacute;tica</div>
-        <div class="prod-card"><span class="prod-name">2. Magnetismo</span>generadores CFE</div>
-        <div class="prod-card"><span class="prod-name">3. Acci&oacute;n qu&iacute;mica</span>pilas y bater&iacute;as</div>
-        <div class="prod-card"><span class="prod-name">4. Luz</span>celdas fotovoltaicas</div>
-        <div class="prod-card"><span class="prod-name">5. Calor</span>termopares</div>
-        <div class="prod-card"><span class="prod-name">6. Presi&oacute;n</span>efecto piezoel&eacute;ctrico</div>
+        <div class="prod-card"><span class="prod-name">1. Frotamiento</span>Al frotar dos materiales se generan cargas estáticas. Ej: globo con cabello.</div>
+        <div class="prod-card"><span class="prod-name">2. Magnetismo</span>Al mover un conductor en campo magnético se induce corriente. Así funcionan los generadores de CFE.</div>
+        <div class="prod-card"><span class="prod-name">3. Acción química</span>Reacción química genera diferencia de potencial. Ej: Pila de Volta (zinc + cobre + ácido sulfúrico), baterías de auto.</div>
+        <div class="prod-card"><span class="prod-name">4. Luz</span>Radiación solar libera electrones en semiconductores. Ej: paneles fotovoltaicos.</div>
+        <div class="prod-card"><span class="prod-name">5. Calor</span>Diferencia de temperatura entre dos metales genera voltaje. Ej: termopares en medición industrial.</div>
+        <div class="prod-card"><span class="prod-name">6. Presión</span>Presión mecánica sobre ciertos cristales genera voltaje. Ej: efecto piezoeléctrico en encendedores.</div>
       </div>
-      <div class="ttl" style="margin-top:1rem">1.3 &mdash; Conductores, aisladores y semiconductores</div>
-      <div style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-bottom:.75rem">
-        <div class="mat-row" style="padding:8px 12px"><span>Oro, plata, cobre, aluminio</span><span class="tag tag-c">Conductor</span></div>
-        <div class="mat-row" style="padding:8px 12px"><span>Vidrio, pl&aacute;stico, hule, cer&aacute;mica</span><span class="tag tag-a">Aislador</span></div>
-        <div class="mat-row" style="padding:8px 12px"><span>Silicio (Si), Germanio (Ge), Galio (Ga)</span><span class="tag tag-s">Semiconductor</span></div>
+
+      <div class="ttl">Plantas generadoras de CFE</div>
+      <div class="table-wrap"><table>
+        <tr><th>Tipo</th><th>Fuente de energía</th></tr>
+        <tr><td>Hidroeléctrica</td><td>Agua (energía potencial)</td></tr>
+        <tr><td>Termoeléctrica</td><td>Vapor por combustión</td></tr>
+        <tr><td>Carboeléctrica</td><td>Carbón (igual que termoeléctrica)</td></tr>
+        <tr><td>Geotermoeléctrica</td><td>Vapor del subsuelo</td></tr>
+        <tr><td>Turbogas</td><td>Gas natural o diésel</td></tr>
+        <tr><td>Ciclo Combinado</td><td>Turbogas + vapor (más eficiente)</td></tr>
+        <tr><td>Nucleoeléctrica</td><td>Fisión del uranio</td></tr>
+        <tr><td>Eoloeléctrica</td><td>Viento (aerogeneradores)</td></tr>
+        <tr><td>Fotovoltaica</td><td>Luz solar (paneles)</td></tr>
+        <tr><td>Combustión interna</td><td>Diésel/gasoil</td></tr>
+      </table></div>
+
+      <div class="ttl">1.2 Uso de la electricidad</div>
+      <div class="body">El proceso completo desde que se genera hasta que llega a tu casa:</div>
+      <div class="fbox">Generación → Transformación ↑ (sube voltaje) → Transmisión (alta tensión) → Transformación ↓ (baja voltaje) → Distribución → Consumo</div>
+      <div class="tip"><strong>¿Por qué subir el voltaje?</strong> A mayor voltaje, menor corriente. Menor corriente = menores pérdidas en los cables. Por eso CFE transmite a 400,000 V y te entrega 127 V en casa. La corriente en la red es <strong>trifásica</strong> (3 cables de fase).</div>
+
+      <div class="ttl">1.3 Conductores, aisladores y semiconductores</div>
+      <div style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin:.75rem 0">
+        <div class="mat-row"><div><strong>Conductores</strong> — electrones de valencia se liberan fácilmente<br><span style="font-size:12px;color:#666">Oro, plata, cobre, aluminio. En CFE se usa cobre y aluminio por economía.</span></div><span class="tag tag-c">Conductor</span></div>
+        <div class="mat-row"><div><strong>Semiconductores</strong> — dejan pasar la corriente en un solo sentido<br><span style="font-size:12px;color:#666">Silicio (Si), Germanio (Ge), Galio (Ga). Base de transistores y microprocesadores.</span></div><span class="tag tag-s">Semiconductor</span></div>
+        <div class="mat-row"><div><strong>Aisladores</strong> — sus átomos ni ceden ni captan electrones<br><span style="font-size:12px;color:#666">Plástico, mica, vidrio, goma, cerámica, madera.</span></div><span class="tag tag-a">Aislador</span></div>
       </div>
-      <div class="tip"><strong>En CFE y LAPEM:</strong> el cobre se usa por econom&iacute;a. El aluminio en l&iacute;neas de transmisi&oacute;n. El aislamiento del cable determina el nivel de tensi&oacute;n que soporta.</div>
-      <div style="margin-top:1rem"><button class="btn-pri" style="width:100%" onclick="showSec(0,'c',document.querySelectorAll('#ch0 .sec-btn')[2])">Ir a pr&aacute;ctica &rarr;</button></div>
+      <div class="tip"><strong>Código de colores de conductores (anotación del libro):</strong><br>Neutro = Blanco &nbsp;|&nbsp; Tierra = Verde/Amarillo &nbsp;|&nbsp; Fases = Negro</div>
+
+      <div class="ttl">1.4 Medición de la electricidad</div>
+      <div class="table-wrap"><table>
+        <tr><th>Magnitud</th><th>Nombre técnico</th><th>Símbolo</th><th>Unidad</th></tr>
+        <tr><td>Resistencia</td><td>Resistencia eléctrica</td><td>R</td><td>Ohms (Ω)</td></tr>
+        <tr><td>Voltaje</td><td>FEM / Tensión / Diferencia de potencial</td><td>V</td><td>Volts (V)</td></tr>
+        <tr><td>Corriente</td><td>Intensidad de corriente</td><td>I</td><td>Amperes (A)</td></tr>
+      </table></div>
+      <div class="fbox">Ley de Ampere: I = Carga / Tiempo &nbsp;&nbsp; → &nbsp;&nbsp; 1 Ampere = 1 Coulomb / 1 segundo</div>
+      <div class="ttl" style="font-size:13px">Prefijos importantes</div>
+      <div class="table-wrap"><table>
+        <tr><th>Prefijo</th><th>Símbolo</th><th>Valor</th><th>Ejemplo</th></tr>
+        <tr><td>Tera</td><td>T</td><td>10¹²</td><td>—</td></tr>
+        <tr><td>Giga</td><td>G</td><td>10⁹</td><td>—</td></tr>
+        <tr><td>Mega</td><td>M</td><td>10⁶</td><td>1 MΩ = 1,000,000 Ω</td></tr>
+        <tr><td>Kilo</td><td>k</td><td>10³</td><td>13.2 kV = 13,200 V</td></tr>
+        <tr><td>Mili</td><td>m</td><td>10⁻³</td><td>0.656 A = 656 mA</td></tr>
+        <tr><td>Micro</td><td>μ</td><td>10⁻⁶</td><td>47 μF = 0.000047 F</td></tr>
+        <tr><td>Nano</td><td>n</td><td>10⁻⁹</td><td>—</td></tr>
+      </table></div>
     </div>
+
+    <!-- EJEMPLOS -->
     <div class="sec" id="s0b">
-      <div class="ttl">1.4 &mdash; Medici&oacute;n interactiva</div>
-      <div class="body">Mueve los sliders y observa c&oacute;mo se relacionan voltaje, resistencia y corriente &mdash; igual que en el mult&iacute;metro del libro.</div>
-      <div class="slider-row"><span class="s-lbl">Voltaje (V)</span><input type="range" min="1" max="240" value="12" step="1" oninput="calcOhm()"><span class="s-val" id="oV">12 V</span></div>
-      <div class="slider-row"><span class="s-lbl">Resistencia (&Omega;)</span><input type="range" min="1" max="500" value="6" step="1" oninput="calcOhm()"><span class="s-val" id="oR">6 &Omega;</span></div>
-      <div class="grid2">
-        <div class="card"><div class="card-lbl">Corriente</div><div class="card-val" id="oI">2.00</div><div class="card-unit">Amperes</div></div>
-        <div class="card"><div class="card-lbl">Potencia</div><div class="card-val" id="oP">24</div><div class="card-unit">Watts</div></div>
+      <div class="ttl">Ejemplos resueltos</div>
+
+      <div class="ex-box">
+        <div class="ex-title">Ejemplo 1 — Medición con multímetro</div>
+        <div class="ex-body">Un técnico de LAPEM va a medir el voltaje de una batería de 12V de CD. ¿Qué posición usa y cómo conecta el multímetro?<br><br>
+        <strong>Solución:</strong><br>
+        ✦ Posición: <strong>Volt CD</strong> (corriente directa)<br>
+        ✦ Conexión: cable rojo al polo (+) y negro al polo (−)<br>
+        ✦ El multímetro se conecta en <strong>paralelo</strong> con la batería<br>
+        ✦ Valor esperado en pantalla: 12 V</div>
+        <div class="ex-res">Resultado: posición Volt CD, conexión en paralelo, lectura ≈ 12 V</div>
       </div>
-      <div class="tip" id="oTip">El libro muestra un mult&iacute;metro midiendo 12V en una bater&iacute;a LTH &mdash; exactamente V=12, R=6 aqu&iacute;.</div>
+
+      <div class="ex-box">
+        <div class="ex-title">Ejemplo 2 — Ley de Ampere (Carga)</div>
+        <div class="ex-body">Un conductor lleva 3 A durante 5 segundos. ¿Cuántos Coulombs pasaron?<br><br>
+        <strong>Solución:</strong><br>
+        Fórmula: Carga = I × t<br>
+        Carga = 3 A × 5 s = <strong>15 Coulombs</strong></div>
+        <div class="ex-res">Resultado: 15 C</div>
+      </div>
+
+      <div class="ex-box">
+        <div class="ex-title">Ejemplo 3 — Ley de Ampere (Corriente)</div>
+        <div class="ex-body">Por un devanado pasan 240 C en 2 minutos. ¿Cuál es la corriente?<br><br>
+        <strong>Solución:</strong><br>
+        Primero convierte minutos a segundos: 2 min × 60 = 120 s<br>
+        Fórmula: I = Carga / Tiempo<br>
+        I = 240 C / 120 s = <strong>2 Amperes</strong></div>
+        <div class="ex-res">Resultado: 2 A</div>
+      </div>
+
+      <div class="ex-box">
+        <div class="ex-title">Ejemplo 4 — Conversión de prefijos</div>
+        <div class="ex-body">Un Megger mide 250 MΩ en el aislamiento de un transformador. ¿Cuántos Ohms son?<br><br>
+        <strong>Solución:</strong><br>
+        1 MΩ = 1,000,000 Ω = 10⁶ Ω<br>
+        250 MΩ × 1,000,000 = <strong>250,000,000 Ω</strong></div>
+        <div class="ex-res">Resultado: 250,000,000 Ω = 2.5 × 10⁸ Ω</div>
+      </div>
+
+      <div class="ex-box">
+        <div class="ex-title">Ejemplo 5 — Contexto LAPEM: corriente en transformador trifásico</div>
+        <div class="ex-body">Un transformador de 15 kVA opera en alta tensión a 13,200 V. ¿Cuántos mA circulan por el lado de alta tensión?<br><br>
+        <strong>Solución:</strong><br>
+        I_AT = P / (√3 × V) = 15,000 / (1.732 × 13,200) = 0.656 A<br>
+        Convertir a mA: 0.656 A × 1,000 = <strong>656 mA</strong></div>
+        <div class="ex-res">Resultado: 656 mA</div>
+      </div>
+
+      <div class="ex-box">
+        <div class="ex-title">Ejemplo 6 — Identificación de materiales</div>
+        <div class="ex-body">Un técnico tiene: un cable de cobre, un trozo de mica, una oblea de silicio y un pedazo de hule. Clasifícalos.<br><br>
+        <strong>Solución:</strong><br>
+        ✦ Cobre → <strong>Conductor</strong> (1 electrón de valencia)<br>
+        ✦ Mica → <strong>Aislador</strong> (no cede ni capta electrones)<br>
+        ✦ Silicio → <strong>Semiconductor</strong> (conduce en un solo sentido)<br>
+        ✦ Hule → <strong>Aislador</strong> (se usa como recubrimiento de cables)</div>
+        <div class="ex-res">Conductor: cobre | Aisladores: mica, hule | Semiconductor: silicio</div>
+      </div>
     </div>
-    <div class="sec" id="s0c"><div id="qArea0"></div></div>
+
+    <!-- PRÁCTICA -->
+    <div class="sec" id="s0c">
+      <div class="opt-banner">&#9733; <strong>Sección opcional</strong> — practica cuantas veces quieras, sin corazones ni presión. Son para repasar fórmulas.</div>
+
+      <div class="ej-bloque">
+        <div class="ej-bloque-title">Bloque A — Ley de Ampere</div>
+
+        <div class="ej" id="e1">
+          <div class="ej-num">Ejercicio 1 — Abierto</div>
+          <div class="ej-txt">Por un cable pasan 240 C en 2 minutos. ¿Cuántos Amperes circulan? (Cuidado con las unidades)</div>
+          <input class="ej-input" type="text" placeholder="Escribe tu resultado con unidades. Ej: 5 A">
+          <button class="ej-btn" onclick="checkOpen(this,'2 a','I = 240/120 = 2 A. Recuerda convertir minutos a segundos: 2 min × 60 = 120 s.')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e2">
+          <div class="ej-num">Ejercicio 2 — Abierto</div>
+          <div class="ej-txt">Un técnico mide que en 30 s pasaron 150 C por un devanado. ¿Cuál es la corriente?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'5 a','I = 150/30 = 5 A.')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e3">
+          <div class="ej-num">Ejercicio 3 — Abierto</div>
+          <div class="ej-txt">Si circulan 0.5 A durante 10 minutos, ¿cuántos Coulombs pasaron?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'300 c','Carga = I × t = 0.5 × 600 s = 300 C. (10 min = 600 s)')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e4">
+          <div class="ej-num">Ejercicio 4 — Abierto</div>
+          <div class="ej-txt">¿Cuánto tiempo tarda en pasar 1000 C si la corriente es 4 A?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'250','t = Carga/I = 1000/4 = 250 segundos.')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e5">
+          <div class="ej-num">Ejercicio 5 — Abierto</div>
+          <div class="ej-txt">Una batería entrega 2 A. ¿Cuántos Coulombs entrega en 1 hora?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'7200','Carga = 2 × 3600 s = 7200 C. (1 hora = 3600 s)')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e6">
+          <div class="ej-num">Ejercicio 6 — Abierto</div>
+          <div class="ej-txt">Un conductor lleva 0.025 A. En 40 segundos, ¿cuántos Coulombs pasan?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'1','Carga = 0.025 × 40 = 1 C.')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e7">
+          <div class="ej-num">Ejercicio 7 — Abierto</div>
+          <div class="ej-txt">Para que pasen 720 C en 6 minutos, ¿qué corriente se necesita?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'2 a','I = 720/360 = 2 A. (6 min = 360 s)')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e8">
+          <div class="ej-num">Ejercicio 8 — Abierto</div>
+          <div class="ej-txt">Un motor arranca con 15 A durante 3 segundos. ¿Cuántos Coulombs consume en el arranque?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'45','Carga = 15 × 3 = 45 C.')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e9">
+          <div class="ej-num">Ejercicio 9 — Opciones</div>
+          <div class="ej-txt">Un conductor lleva 120 C en 60 s. ¿Cuántos Amperes circulan?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'I = 120/60 = 2 A, no 0.5 A.')">a) 0.5 A</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! I = 120/60 = 2 A.')">b) 2 A</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'I = 120/60 = 2 A, no 7200 A.')">c) 7200 A</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'I = 120/60 = 2 A, no 60 A.')">d) 60 A</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e10">
+          <div class="ej-num">Ejercicio 10 — Opciones</div>
+          <div class="ej-txt">¿Cuántos Coulombs pasan en 5 s si circulan 3 A?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'Carga = I × t = 3 × 5 = 15 C, no 1.67.')">a) 1.67 C</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'Carga = 3 × 5 = 15 C, no 8.')">b) 8 C</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! Carga = 3 × 5 = 15 C.')">c) 15 C</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'Carga = 3 × 5 = 15 C, no 0.6.')">d) 0.6 C</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+      </div>
+
+      <div class="ej-bloque">
+        <div class="ej-bloque-title">Bloque B — Prefijos y conversiones</div>
+
+        <div class="ej" id="e11">
+          <div class="ej-num">Ejercicio 11 — Abierto</div>
+          <div class="ej-txt">Convierte 0.0045 A a miliamperes (mA)</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'4.5','0.0045 × 1000 = 4.5 mA')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e12">
+          <div class="ej-num">Ejercicio 12 — Abierto</div>
+          <div class="ej-txt">Convierte 15,000 V a kilovolts (kV)</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'15','15,000 / 1,000 = 15 kV')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e13">
+          <div class="ej-num">Ejercicio 13 — Abierto</div>
+          <div class="ej-txt">Un cable tiene 2,500,000 Ω de resistencia. ¿Cuántos MΩ son?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'2.5','2,500,000 / 1,000,000 = 2.5 MΩ')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e14">
+          <div class="ej-num">Ejercicio 14 — Abierto</div>
+          <div class="ej-txt">Un transformador opera a 400,000 V. ¿Cuántos kV son?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'400','400,000 / 1,000 = 400 kV')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e15">
+          <div class="ej-num">Ejercicio 15 — Abierto</div>
+          <div class="ej-txt">Un Megger mide 250 MΩ. ¿Cuántos Ohms son?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'250000000','250 × 1,000,000 = 250,000,000 Ω')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e16">
+          <div class="ej-num">Ejercicio 16 — Opciones</div>
+          <div class="ej-txt">13,200 V equivalen a...</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'13,200/1,000 = 13.2 kV, no 1.32.')">a) 1.32 kV</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! 13,200/1,000 = 13.2 kV.')">b) 13.2 kV</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'13,200/1,000 = 13.2 kV, no 132.')">c) 132 kV</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'13,200/1,000 = 13.2 kV, no 0.132.')">d) 0.132 kV</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e17">
+          <div class="ej-num">Ejercicio 17 — Opciones</div>
+          <div class="ej-txt">1 MΩ equivale a...</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'M = 10⁶ = 1,000,000, no 1,000.')">a) 1,000 Ω</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'M = 10⁶ = 1,000,000, no 100,000.')">b) 100,000 Ω</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! 1 MΩ = 10⁶ = 1,000,000 Ω.')">c) 1,000,000 Ω</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'M = 10⁶ = 1,000,000, no 10,000,000.')">d) 10,000,000 Ω</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+      </div>
+
+      <div class="ej-bloque">
+        <div class="ej-bloque-title">Bloque C — Conductores, aisladores y semiconductores</div>
+
+        <div class="ej" id="e18">
+          <div class="ej-num">Ejercicio 18 — Opciones</div>
+          <div class="ej-txt">¿Cuál de estos materiales tiene más electrones libres?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'El vidrio es aislador, tiene muy pocos electrones libres.')">a) Vidrio</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El plástico es aislador.')">b) Plástico</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El cobre tiene 1 electrón de valencia y es excelente conductor.')">c) Cobre</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El silicio es semiconductor, no el de más electrones libres.')">d) Silicio</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e19">
+          <div class="ej-num">Ejercicio 19 — Opciones</div>
+          <div class="ej-txt">El silicio se usa para fabricar transistores porque...</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'El cobre es mejor conductor, no el silicio.')">a) Es el mejor conductor</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El silicio no es totalmente aislante.')">b) Es totalmente aislante</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El semiconductor deja pasar la corriente en un solo sentido.')">c) Deja pasar la corriente en un solo sentido</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'Tiene más electrones libres que el aislador pero menos que el conductor.')">d) Tiene muchos electrones libres</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e20">
+          <div class="ej-num">Ejercicio 20 — Opciones</div>
+          <div class="ej-txt">¿Cuál NO es un aislador eléctrico?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'La mica sí es aislador.')">a) Mica</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'La goma sí es aislador.')">b) Goma</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El aluminio es conductor metálico, no aislador.')">c) Aluminio</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'La cerámica sí es aislador.')">d) Cerámica</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+      </div>
+
+      <div class="ej-bloque">
+        <div class="ej-bloque-title">Bloque D — Plantas generadoras y medición</div>
+
+        <div class="ej" id="e21">
+          <div class="ej-num">Ejercicio 21 — Opciones</div>
+          <div class="ej-txt">¿Qué forma de producir electricidad usa el efecto piezoeléctrico?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'La luz genera electricidad por efecto fotovoltaico, no piezoeléctrico.')">a) Luz</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El calor usa termopares.')">b) Calor</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El magnetismo genera por inducción electromagnética.')">c) Magnetismo</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! La presión sobre ciertos cristales genera voltaje — efecto piezoeléctrico.')">d) Presión</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e22">
+          <div class="ej-num">Ejercicio 22 — Opciones</div>
+          <div class="ej-txt">En una planta nucleoeléctrica, ¿qué se usa como combustible?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'El gas natural se usa en plantas turbogas.')">a) Gas natural</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El carbón se usa en carboeléctricas.')">b) Carbón</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! En las nucleoeléctricas se usa uranio como combustible.')">c) Uranio</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El agua geotérmica se usa en plantas geotérmicas.')">d) Agua geotérmica</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e23">
+          <div class="ej-num">Ejercicio 23 — Opciones</div>
+          <div class="ej-txt">Para medir corriente alterna de 127V con un multímetro se selecciona...</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'Volt CD es para corriente directa (baterías, etc.).')">a) Volt CD</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! Volt CA para corriente alterna como la de los tomacorrientes.')">b) Volt CA</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'Ohms mide resistencia, no voltaje.')">c) Ohms</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'mA mide corriente en miliamperes.')">d) mA</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e24">
+          <div class="ej-num">Ejercicio 24 — Opciones</div>
+          <div class="ej-txt">Para medir resistencia con el multímetro, el circuito debe estar...</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'Medir resistencia con el circuito energizado puede dañar el instrumento.')">a) Energizado con CA</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'Tampoco se debe energizar con CD para medir resistencia.')">b) Energizado con CD</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El multímetro en posición Ohms aplica su propia corriente de prueba. El circuito debe estar desenergizado.')">c) Desenergizado</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'Sí importa — debe estar desenergizado.')">d) No importa</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e25">
+          <div class="ej-num">Ejercicio 25 — Abierto</div>
+          <div class="ej-txt">Una planta geotérmica genera 50,000,000 W. ¿Cuántos MW son?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'50','50,000,000 / 1,000,000 = 50 MW')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e26">
+          <div class="ej-num">Ejercicio 26 — Abierto</div>
+          <div class="ej-txt">El multímetro del libro muestra 2300 en posición Ohms. ¿Cuántos kΩ son?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'2.3','2300 / 1000 = 2.3 kΩ')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+      </div>
+
+      <div class="ej-bloque">
+        <div class="ej-bloque-title">Bloque E — Medición y multímetro (avanzado)</div>
+
+        <div class="ej" id="e27">
+          <div class="ej-num">Ejercicio 27 — Abierto</div>
+          <div class="ej-txt">Un técnico mide 150 mA en un circuito. ¿Cuántos Amperes son?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'0.15','150 mA / 1000 = 0.15 A')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e28">
+          <div class="ej-num">Ejercicio 28 — Abierto</div>
+          <div class="ej-txt">Un cable de alta tensión opera a 0.4 GV. ¿Cuántos Volts son?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'400000000','0.4 × 1,000,000,000 = 400,000,000 V = 400 MV')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e29">
+          <div class="ej-num">Ejercicio 29 — Abierto</div>
+          <div class="ej-txt">Convierte 0.000033 F a microfarads (μF)</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'33','0.000033 × 1,000,000 = 33 μF')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e30">
+          <div class="ej-num">Ejercicio 30 — Opciones</div>
+          <div class="ej-txt">¿Cómo se conecta el amperímetro para medir corriente?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'El amperímetro va en serie, no en paralelo.')">a) En paralelo con la carga</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El amperímetro se conecta en serie para que la corriente pase a través de él.')">b) En serie con la carga</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'No existe esa configuración.')">c) Entre fase y tierra</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'No es correcto.')">d) En cualquier punto del circuito</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e31">
+          <div class="ej-num">Ejercicio 31 — Opciones</div>
+          <div class="ej-txt">¿Cómo se conecta el voltímetro para medir voltaje?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'El voltímetro va en paralelo, no en serie.')">a) En serie con la carga</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El voltímetro se conecta en paralelo — mide la diferencia de potencial entre dos puntos.')">b) En paralelo con la carga</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'No es correcto.')">c) Solo en el neutro</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'No es correcto.')">d) Después del interruptor siempre</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e32">
+          <div class="ej-num">Ejercicio 32 — Abierto</div>
+          <div class="ej-txt">Un técnico conecta el voltímetro en serie por error. ¿Qué lectura obtendrá?</div>
+          <input class="ej-input" type="text" placeholder="Explica qué pasa...">
+          <button class="ej-btn" onclick="checkOpen(this,'0','Obtendrá casi 0 V. El voltímetro tiene resistencia interna muy alta, por lo que en serie bloquea prácticamente toda la corriente y cae casi todo el voltaje en él, dando una lectura incorrecta o quemando el instrumento.')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+      </div>
+
+      <div class="ej-bloque">
+        <div class="ej-bloque-title">Bloque F — Contexto CFE/LAPEM aplicado</div>
+
+        <div class="ej" id="e33">
+          <div class="ej-num">Ejercicio 33 — Abierto</div>
+          <div class="ej-txt">La central eólica de La Venta, Oaxaca tiene 105 aerogeneradores con capacidad de 84.875 MW. ¿Cuántos kW es eso en total?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'84875','84.875 MW × 1000 = 84,875 kW')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e34">
+          <div class="ej-num">Ejercicio 34 — Abierto</div>
+          <div class="ej-txt">CFE transmite a 400 kV. ¿Cuántos Volts son?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'400000','400 × 1,000 = 400,000 V')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e35">
+          <div class="ej-num">Ejercicio 35 — Opciones</div>
+          <div class="ej-txt">Un cable de distribución opera a 13.2 kV. ¿A cuántos Volts corresponde?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'13.2 kV = 13,200 V, no 1,320.')">a) 1,320 V</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! 13.2 × 1,000 = 13,200 V. Es el voltaje típico de distribución primaria en México.')">b) 13,200 V</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'13.2 kV = 13,200 V, no 132,000.')">c) 132,000 V</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'13.2 kV = 13,200 V, no 0.0132.')">d) 0.0132 V</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e36">
+          <div class="ej-num">Ejercicio 36 — Opciones</div>
+          <div class="ej-txt">¿Qué convierte la energía mecánica en eléctrica en todas las plantas generadoras?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'El transformador cambia niveles de voltaje, no convierte mecánica en eléctrica.')">a) El transformador</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El condensador almacena energía eléctrica.')">b) El condensador</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El generador eléctrico convierte energía mecánica (rotación) en eléctrica por inducción electromagnética.')">c) El generador eléctrico</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'La turbina convierte energía del fluido en mecánica, no en eléctrica directamente.')">d) La turbina</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e37">
+          <div class="ej-num">Ejercicio 37 — Opciones</div>
+          <div class="ej-txt">¿Cuál es la diferencia principal entre una planta termoeléctrica y una carboeléctrica?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'Ambas usan vapor para mover turbinas.')">a) La termoeléctrica usa vapor y la carboeléctrica no</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! Son básicamente iguales, solo cambia el combustible: carbón en la carboeléctrica.')">b) Son iguales pero la carboeléctrica usa carbón como combustible</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'Ambas generan CA.')">c) La carboeléctrica genera CD y la termoeléctrica CA</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'No es correcto.')">d) La termoeléctrica es más antigua siempre</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e38">
+          <div class="ej-num">Ejercicio 38 — Abierto</div>
+          <div class="ej-txt">Un panel solar genera 12 A de corriente directa durante 5 horas. ¿Cuántos Coulombs generó en total?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'216000','Carga = I × t = 12 × (5 × 3600) = 12 × 18,000 = 216,000 C')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e39">
+          <div class="ej-num">Ejercicio 39 — Abierto</div>
+          <div class="ej-txt">¿Por qué los aerogeneradores se apagan cuando el viento supera los 20 m/s según el libro?</div>
+          <input class="ej-input" type="text" placeholder="Explica con tus palabras...">
+          <button class="ej-btn" onclick="checkOpen(this,'daño','Para evitar daños a los equipos. El libro indica que los aerogeneradores funcionan entre 5 y 20 m/s, y por encima del límite superior deben pararse.')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+      </div>
+
+      <div class="ej-bloque">
+        <div class="ej-bloque-title">Bloque G — Cálculos mixtos avanzados</div>
+
+        <div class="ej" id="e40">
+          <div class="ej-num">Ejercicio 40 — Abierto</div>
+          <div class="ej-txt">Un conductor lleva 2.5 A. ¿Cuántos Coulombs pasan en 2 horas?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'18000','Carga = 2.5 × (2 × 3600) = 2.5 × 7200 = 18,000 C')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e41">
+          <div class="ej-num">Ejercicio 41 — Abierto</div>
+          <div class="ej-txt">Convierte 0.000000047 F a nanofarads (nF)</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'47','0.000000047 F = 47 nF. (1 nF = 10⁻⁹ F → × 10⁹ = 47)')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e42">
+          <div class="ej-num">Ejercicio 42 — Opciones</div>
+          <div class="ej-txt">¿Cuántos mA son 0.656 A? (corriente en AT del transformador del libro)</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'0.656 × 1000 = 656 mA, no 65.6.')">a) 65.6 mA</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! 0.656 × 1,000 = 656 mA.')">b) 656 mA</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'0.656 × 1000 = 656 mA, no 6560.')">c) 6,560 mA</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'0.656 × 1000 = 656 mA, no 0.000656.')">d) 0.000656 mA</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e43">
+          <div class="ej-num">Ejercicio 43 — Opciones</div>
+          <div class="ej-txt">Si la corriente en BT del transformador del libro es 39.36 A, ¿cuántos mA son?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'39.36 × 1000 = 39,360 mA, no 3,936.')">a) 3,936 mA</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! 39.36 × 1,000 = 39,360 mA.')">b) 39,360 mA</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'39.36 × 1000 = 39,360 mA, no 393.6.')">c) 393.6 mA</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'39.36 × 1000 = 39,360 mA, no 393,600.')">d) 393,600 mA</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e44">
+          <div class="ej-num">Ejercicio 44 — Abierto</div>
+          <div class="ej-txt">¿Cuántos segundos hay en 1 hora? (útil para cálculos de Coulombs)</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'3600','1 hora × 60 min × 60 s = 3,600 segundos')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e45">
+          <div class="ej-num">Ejercicio 45 — Abierto</div>
+          <div class="ej-txt">Una batería de auto entrega 80 A durante 3 segundos al arrancar. ¿Cuántos Coulombs consume en el arranque?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'240','Carga = 80 × 3 = 240 C')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+
+        <div class="ej" id="e46">
+          <div class="ej-num">Ejercicio 46 — Opciones</div>
+          <div class="ej-txt">¿Cuál es la unidad correcta de la intensidad de corriente eléctrica?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'El Volt es la unidad del voltaje, no de la corriente.')">a) Volt</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El Ohm es la unidad de la resistencia.')">b) Ohm</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El Ampere (A) es la unidad de intensidad de corriente eléctrica.')">c) Ampere</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'El Watt es la unidad de potencia.')">d) Watt</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e47">
+          <div class="ej-num">Ejercicio 47 — Opciones</div>
+          <div class="ej-txt">¿Cuál es la ventaja principal de las plantas de ciclo combinado sobre las de turbogas?</div>
+          <div class="ej-opts">
+            <button class="ej-opt" onclick="checkOpt(this,false,'No necesariamente son más baratas.')">a) Son más baratas de construir</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'No necesariamente arrancan más rápido.')">b) Arrancan más rápido</button>
+            <button class="ej-opt" onclick="checkOpt(this,true,'¡Correcto! El ciclo combinado aprovecha los gases de escape de la turbogas para generar vapor y producir más electricidad, mejorando la eficiencia térmica.')">c) Son más eficientes porque aprovechan los gases de escape</button>
+            <button class="ej-opt" onclick="checkOpt(this,false,'No contaminan menos necesariamente.')">d) No contaminan</button>
+          </div>
+          <div class="ej-fb"></div>
+          <span class="ej-reset" onclick="resetOpt(this)">Reintentar</span>
+        </div>
+
+        <div class="ej" id="e48">
+          <div class="ej-num">Ejercicio 48 — Abierto</div>
+          <div class="ej-txt">Un técnico de LAPEM necesita verificar el aislamiento de un cable. Tiene disponibles: multímetro, Megger y osciloscopio. ¿Cuál usa y por qué?</div>
+          <input class="ej-input" type="text" placeholder="Tu respuesta...">
+          <button class="ej-btn" onclick="checkOpen(this,'megger','El Megger (medidor de aislamiento). Aplica alta tensión de prueba (500V, 1kV, 5kV o más) para medir resistencia de aislamiento en MΩ. El multímetro solo mide resistencias bajas y no aplica suficiente tensión para probar el aislamiento.')">Verificar</button>
+          <div class="ej-fb"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMEN -->
+    <div class="sec" id="s0d">
+      <div id="qArea0"></div>
+    </div>
   </div>
 
-  <!-- CAP 2 -->
+  <!-- CAP 2 placeholder -->
   <div class="panel" id="ch1" style="display:none">
-    <div class="sec-tabs">
-      <button class="sec-btn active" onclick="showSec(1,'a',this)">Lecci&oacute;n</button>
-      <button class="sec-btn" onclick="showSec(1,'b',this)">Interactivo</button>
-      <button class="sec-btn" onclick="showSec(1,'c',this)">Pr&aacute;ctica</button>
+    <div style="text-align:center;padding:2rem;color:#888">
+      <div style="font-size:32px;margin-bottom:.5rem">🔒</div>
+      <strong style="color:#333;display:block;margin-bottom:.5rem">Capítulo 2 — Próximamente</strong>
+      Saca 80%+ en el examen del Cap. 1 para desbloquear.
     </div>
-    <div class="sec on" id="s1a">
-      <div class="ttl">Cap. 2 &mdash; Circuitos El&eacute;ctricos de CD</div>
-      <div class="body">Un circuito el&eacute;ctrico necesita 4 elementos: <strong>Fuente de voltaje, Conductores, Carga e Interruptor.</strong></div>
-      <div class="ttl" style="margin-top:1rem">2.2 &mdash; C&oacute;digo de colores para resistencias</div>
-      <div class="fbox">Bandas A y B &rarr; cifras significativas<br>Banda C &rarr; multiplicador (10&sup n;)<br>Banda D &rarr; tolerancia (Dorado=&plusmn;5%, Plateado=&plusmn;10%)</div>
-      <div class="tip"><strong>Ejemplo:</strong> Caf&eacute;-Negro-Naranja-Dorado = 1, 0, &times;1000, &plusmn;5% = <strong>10,000 &Omega; &plusmn;5%</strong></div>
-      <div class="ttl" style="margin-top:1rem">2.3 vs 2.4 &mdash; Serie vs Paralelo</div>
-      <div class="grid2">
-        <div class="card"><div class="card-lbl">Serie</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">I igual en todo<br>V se divide<br>R_T = R1+R2+R3</div></div>
-        <div class="card"><div class="card-lbl">Paralelo</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">V igual en todo<br>I se divide<br>1/R_T = 1/R1+1/R2...</div></div>
-      </div>
-      <div class="tip"><strong>Mixto (2.5):</strong> reduce primero los grupos en paralelo, luego suma en serie.</div>
-      <div style="margin-top:1rem"><button class="btn-pri" style="width:100%" onclick="showSec(1,'c',document.querySelectorAll('#ch1 .sec-btn')[2])">Ir a pr&aacute;ctica &rarr;</button></div>
-    </div>
-    <div class="sec" id="s1b">
-      <div class="ttl">Explorador &mdash; circuito serie</div>
-      <div class="body">Simula el ejemplo del libro: tres resistencias en serie.</div>
-      <div class="slider-row"><span class="s-lbl">R1 (&Omega;)</span><input type="range" min="1" max="20" value="4" step="1" oninput="calcSerie()"><span class="s-val" id="sR1">4 &Omega;</span></div>
-      <div class="slider-row"><span class="s-lbl">R2 (&Omega;)</span><input type="range" min="1" max="20" value="4" step="1" oninput="calcSerie()"><span class="s-val" id="sR2">4 &Omega;</span></div>
-      <div class="slider-row"><span class="s-lbl">R3 (&Omega;)</span><input type="range" min="1" max="20" value="4" step="1" oninput="calcSerie()"><span class="s-val" id="sR3">4 &Omega;</span></div>
-      <div class="slider-row"><span class="s-lbl">Voltaje (V)</span><input type="range" min="1" max="240" value="12" step="1" oninput="calcSerie()"><span class="s-val" id="sVV">12 V</span></div>
-      <div class="grid2">
-        <div class="card"><div class="card-lbl">R total</div><div class="card-val" id="sRT">12</div><div class="card-unit">Ohms</div></div>
-        <div class="card"><div class="card-lbl">Corriente</div><div class="card-val" id="sI">1.00</div><div class="card-unit">Amperes</div></div>
-      </div>
-      <div class="tip" id="sTip">Con R1=R2=R3=4&Omega; y 12V &rarr; I=1A. Exacto al ejemplo del libro, p&aacute;g. 27.</div>
-    </div>
-    <div class="sec" id="s1c"><div id="qArea1"></div></div>
   </div>
 
-  <!-- CAP 3 -->
+  <!-- CAP 3 placeholder -->
   <div class="panel" id="ch2" style="display:none">
-    <div class="sec-tabs">
-      <button class="sec-btn active" onclick="showSec(2,'a',this)">Lecci&oacute;n</button>
-      <button class="sec-btn" onclick="showSec(2,'c',this)">Pr&aacute;ctica</button>
+    <div style="text-align:center;padding:2rem;color:#888">
+      <div style="font-size:32px;margin-bottom:.5rem">🔒</div>
+      <strong style="color:#333;display:block;margin-bottom:.5rem">Capítulo 3 — Próximamente</strong>
+      Completa los capítulos anteriores primero.
     </div>
-    <div class="sec on" id="s2a">
-      <div class="ttl">Cap. 3 &mdash; Circuitos de CA</div>
-      <div class="body">La corriente alterna cambia de direcci&oacute;n peri&oacute;dicamente. Es la que usa CFE en toda su red. El libro cubre tres elementos pasivos: R, L y C.</div>
-      <div class="grid2">
-        <div class="card"><div class="card-lbl">Resistencia (R)</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">&Aacute;ngulo 0&deg;<br>V e I en fase<br>Unidad: Ohms</div></div>
-        <div class="card"><div class="card-lbl">Inductancia (XL)</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">&Aacute;ngulo +90&deg;<br>V adelanta a I<br>XL = 2&pi;fL</div></div>
-        <div class="card"><div class="card-lbl">Capacitancia (XC)</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">&Aacute;ngulo &minus;90&deg;<br>I adelanta a V<br>XC = 1/2&pi;fC</div></div>
-        <div class="card"><div class="card-lbl">Impedancia (Z)</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.8">Combina R, L, C<br>Z = &radic;(R&sup2;+X&sup2;)<br>V = I &middot; Z</div></div>
-      </div>
-      <div class="fbox">Z = &radic;(R&sup2; + X&sup2;) &nbsp; donde X = XL &minus; XC<br>Ley de Ohm en CA: V = I &times; Z<br>cos &phi; = R / Z &nbsp;(factor de potencia)</div>
-      <div class="ttl" style="margin-top:1rem">3.10 &mdash; El Transformador</div>
-      <div class="body">El tema m&aacute;s importante para LAPEM. Cambia el nivel de voltaje usando inducci&oacute;n electromagn&eacute;tica.</div>
-      <div class="fbox">E = 4.44 &middot; f &middot; n &middot; &Phi; &nbsp;(ecuaci&oacute;n general)<br>a = VAT/VBT = IBT/IAT = NAT/NBT<br>P = V &middot; I &nbsp;(en VA o kVA)</div>
-      <div class="tip"><strong>Ejemplo del libro (p&aacute;g. 68):</strong> 15 kVA, 13,200V / 220V, Z%=4%<br>I_AT = 15,000 / (&radic;3 &times; 13,200) = <strong>0.656 A</strong><br>I_BT = 15,000 / (&radic;3 &times; 220) = <strong>39.36 A</strong></div>
-      <div style="margin-top:1rem"><button class="btn-pri" style="width:100%" onclick="showSec(2,'c',document.querySelectorAll('#ch2 .sec-btn')[1])">Ir a pr&aacute;ctica &rarr;</button></div>
-    </div>
-    <div class="sec" id="s2c"><div id="qArea2"></div></div>
   </div>
 
   <!-- HISTORIAL -->
   <div class="panel" id="ch3" style="display:none">
-    <div class="ttl">Historial de pr&aacute;ctica</div>
+    <div class="ttl">Historial de práctica</div>
     <div id="histList" style="margin-top:.75rem"></div>
     <span class="reset-lnk" onclick="resetAll()">Borrar todo el progreso</span>
   </div>
 </div>
 
 <script>
-const SK='lapem_gonzalez_v1';
-const QS={
-  0:[
-    {t:"¿Qué partícula tiene carga negativa y es responsable de la corriente eléctrica?",o:["Protón","Neutrón","Electrón","Fotón"],c:2,e:"El electrón tiene carga negativa y orbita el núcleo. Su movimiento ordenado es la corriente eléctrica."},
-    {t:"¿Cuántas formas elementales de producir electricidad lista el libro del Ing. González?",o:["4","5","6","8"],c:2,e:"El libro lista 6: frotamiento, magnetismo, acción química, luz, calor y presión."},
-    {t:"El cobre se usa en instalaciones eléctricas principalmente por...",o:["Ser el mejor conductor","Economía y disponibilidad","Resistir altas temperaturas","Ser más ligero"],c:1,e:"El libro indica: 'por economía se utilizan el cobre y el aluminio'. El mejor conductor es la plata, pero es cara."},
-    {t:"¿Cuál de estos materiales es un AISLADOR eléctrico?",o:["Cobre","Silicio","Aluminio","Vidrio"],c:3,e:"El libro menciona vidrio, hule, plástico y cerámica como aisladores. El silicio es semiconductor."},
-    {t:"Un ampere equivale a...",o:["1 volt / 1 ohm","1 coulomb / 1 segundo","1 watt / 1 volt","1 joule / 1 segundo"],c:1,e:"Del libro: Ampere = 1 coulomb / 1 segundo. Ley de Ampere: I = Carga / Tiempo."},
-    {t:"¿Qué tipo de central usa vapor del subsuelo para generar electricidad?",o:["Termoeléctrica","Geotermoeléctrica","Nucleoeléctrica","Carboeléctrica"],c:1,e:"Las plantas geotérmicas extraen agua caliente del subsuelo que se convierte en vapor para mover turbinas."}
-  ],
-  1:[
-    {t:"En un circuito SERIE con R1=4Ω, R2=4Ω, R3=4Ω y 12V (ejemplo del libro pág.27), ¿cuál es la corriente total?",o:["0.33 A","1 A","3 A","4 A"],c:1,e:"Rs = 4+4+4 = 12Ω. I = V/R = 12/12 = 1A. Ejemplo exacto del libro."},
-    {t:"¿Cuál es la característica principal de un circuito en PARALELO?",o:["La corriente es igual en todo","El voltaje es igual en todo","La resistencia total es mayor","Comparten la misma corriente"],c:1,e:"En paralelo: V1=V2=V3=V (mismo voltaje en todas las ramas). La corriente se divide."},
-    {t:"Una resistencia Café-Negro-Naranja-Dorado tiene valor de...",o:["1300 Ω ±5%","10000 Ω ±5%","103 Ω ±5%","130 Ω ±10%"],c:1,e:"Café=1, Negro=0, Naranja=×1000. Resultado: 10×1000=10,000Ω. Dorado=±5%."},
-    {t:"La Ley de Kirchhoff de voltajes (LVK) dice que en un lazo cerrado la suma algebraica de voltajes es...",o:["Igual a la resistencia total","Igual a la corriente máxima","Igual a cero","Igual al voltaje de la fuente"],c:2,e:"LVK: suma algebraica de caídas de voltaje en un lazo = 0. Es decir: V_fuente = V1+V2+V3."},
-    {t:"En un circuito MIXTO, ¿cuál es el primer paso para resolverlo?",o:["Calcular la corriente total","Reducir primero paralelo o serie","Aplicar Kirchhoff directo","Calcular la potencia total"],c:1,e:"El libro: 'resolver primero los elementos en serie y en paralelo para reducir a un circuito puro'."},
-    {t:"¿Cuánta potencia consume una resistencia de 6Ω con 2A circulando?",o:["12 W","24 W","3 W","36 W"],c:1,e:"P = I²×R = 4×6 = 24W. También: P = V×I = 12×2 = 24W."}
-  ],
-  2:[
-    {t:"En un circuito CA puramente inductivo, la corriente...",o:["Está en fase con el voltaje","Adelanta 90° al voltaje","Se retrasa 90° al voltaje","No tiene relación de fase"],c:2,e:"En un inductor puro, el voltaje adelanta 90° a la corriente. XL tiene ángulo +90°."},
-    {t:"La impedancia de un circuito R-L serie con R=3Ω y XL=4Ω es...",o:["7 Ω","1 Ω","5 Ω","12 Ω"],c:2,e:"Z = √(R²+XL²) = √(9+16) = √25 = 5Ω. Ejemplo del libro con circuito RL."},
-    {t:"El factor de potencia (cos φ) representa...",o:["Relación voltaje pico/RMS","Eficiencia en convertir energía en trabajo","Diferencia entre XL y XC","El ángulo en grados entre I y V"],c:1,e:"cos φ = R/Z. Factor de potencia = 1 significa que toda la potencia se convierte en trabajo útil."},
-    {t:"En el transformador del libro (15kVA, 13,200V primario), la corriente en alta tensión es...",o:["39.36 A","0.656 A","6.82 A","15 A"],c:1,e:"I_AT = P/(√3×V_AT) = 15,000/(√3×13,200) ≈ 0.656 A. Ejemplo exacto del libro pág. 68."},
-    {t:"En E = 4.44·f·n·Φ, ¿qué representa 'n'?",o:["La frecuencia en Hz","El número de vueltas del devanado","El flujo magnético en weber","La eficiencia del transformador"],c:1,e:"n = número de vueltas (espiras) del devanado. Más vueltas en el secundario = mayor voltaje de salida."},
-    {t:"La reactancia capacitiva XC cuando aumenta la frecuencia...",o:["Aumenta","Disminuye","No cambia","Se iguala a XL"],c:1,e:"XC = 1/(2πfC). Al aumentar f, XC disminuye — el capacitor deja pasar más fácil las frecuencias altas."}
-  ]
-};
+const SK='lapem_v4';
+const EXAM=[
+  {t:"¿Qué partícula subatómica es responsable del flujo de corriente eléctrica?",o:["Protón","Neutrón","Electrón","Fotón"],c:2,e:"El electrón tiene carga negativa, orbita el núcleo y su movimiento ordenado es la corriente eléctrica."},
+  {t:"El electrón es 1836 veces más ligero que el protón. ¿Qué consecuencia tiene esto?",o:["El protón conduce mejor","El electrón es más fácil de mover y fluye como corriente","El neutrón genera la corriente","El átomo es inestable"],c:1,e:"Al ser mucho más ligero, el electrón se mueve con facilidad cuando se aplica una diferencia de potencial."},
+  {t:"Un conductor lleva 360 C en 3 minutos. ¿Cuántos Amperes circulan?",o:["1080 A","120 A","2 A","0.5 A"],c:2,e:"I = 360 C / (3×60 s) = 360/180 = 2 A. Siempre convierte minutos a segundos."},
+  {t:"¿Cuántas formas elementales de producir electricidad lista el libro del Ing. González?",o:["4","5","6","8"],c:2,e:"El libro lista 6: frotamiento, magnetismo, acción química, luz, calor y presión."},
+  {t:"¿Qué forma de producción utilizan los generadores de CFE?",o:["Acción química","Presión","Calor","Magnetismo"],c:3,e:"Los generadores de CFE funcionan por inducción electromagnética: un conductor en movimiento dentro de un campo magnético genera corriente."},
+  {t:"En el sistema eléctrico de CFE, ¿por qué se eleva el voltaje antes de transmitirlo a larga distancia?",o:["Para que los transformadores funcionen mejor","Porque la ley lo exige","A mayor voltaje, menor corriente y menores pérdidas","Para que llegue más rápido"],c:2,e:"P = V×I. Si el voltaje sube, la corriente baja para la misma potencia. Menor corriente = menos pérdidas en los cables (P_pérdida = I²×R)."},
+  {t:"¿Cuál de estos materiales es semiconductor?",o:["Cobre","Vidrio","Silicio","Aluminio"],c:2,e:"El silicio (Si) es semiconductor — deja pasar la corriente en un solo sentido. Es la base de transistores, diodos y microprocesadores."},
+  {t:"13,200 V equivalen a...",o:["1.32 kV","13.2 kV","132 kV","13,200,000 mV"],c:1,e:"13,200 / 1,000 = 13.2 kV. El kilovolt es la unidad más usada en distribución eléctrica."},
+  {t:"El electrón de valencia determina...",o:["El peso del átomo","Si un material es conductor, aislador o semiconductor","La cantidad de neutrones","La temperatura de fusión"],c:1,e:"El electrón de valencia es el de la capa más externa. Si se libera fácilmente = conductor. Si no se libera = aislador. Si va en un sentido = semiconductor."},
+  {t:"¿Qué instrumento se usa para medir voltaje, corriente y resistencia en campo?",o:["Megger","Osciloscopio","Multímetro","Ducter"],c:2,e:"El multímetro es el instrumento básico de campo. Tiene posiciones para Volt CA, Volt CD, Ohms y mA."},
+  {t:"Para medir resistencia con el multímetro, el circuito debe estar...",o:["Energizado con CA","Energizado con CD","Desenergizado","No importa"],c:2,e:"El multímetro en posición Ohms aplica su propia corriente de prueba. Si el circuito está energizado puede dañar el instrumento o dar lecturas falsas."},
+  {t:"¿Cuál es la diferencia principal entre un aislador y un semiconductor?",o:["El aislador conduce en un solo sentido","El semiconductor tiene más electrones libres que el aislador","El aislador es siempre metálico","No hay diferencia significativa"],c:1,e:"Conductor > Semiconductor > Aislador, en cuanto a electrones libres. El semiconductor está entre los dos extremos."},
+  {t:"En una planta nucleoeléctrica, ¿qué sustancia se usa como combustible?",o:["Gas natural","Carbón","Uranio","Hidrógeno"],c:2,e:"En las centrales nucleares el calor se obtiene de la fisión del uranio. Por analogía con otras plantas se llama 'combustible nuclear'."},
+  {t:"Un Megger mide 500 MΩ en un devanado. ¿Cuántos Ohms son?",o:["5,000 Ω","500,000 Ω","500,000,000 Ω","50,000,000 Ω"],c:2,e:"500 MΩ × 1,000,000 = 500,000,000 Ω = 5×10⁸ Ω. En LAPEM se miden resistencias de aislamiento en MΩ con el Megger."},
+  {t:"La Ley de cargas eléctricas establece que...",o:["Cargas iguales se atraen y distintas se repelen","Cargas iguales se repelen y distintas se atraen","Solo los protones generan atracción","Los neutrones repelen a los electrones"],c:1,e:"Cargas iguales se repelen (− y − o + y +). Cargas distintas se atraen (+ y −). Este principio explica el enlace atómico y el funcionamiento de los campos eléctricos."}
+];
 
+let freeMode=false;
 let st={cur:0,sc:0,hts:3,stk:0,ans:false,wr:[],hist:[],ch:0};
 
-function load(){try{const r=localStorage.getItem(SK);if(r){const s=JSON.parse(r);if(s.hist)st.hist=s.hist;updatePB();unlockTabs();}}catch(e){}}
-function save(){try{localStorage.setItem(SK,JSON.stringify({hist:st.hist}));const t=document.getElementById('saveTag');t.textContent='✓ '+new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+function load(){
+  try{
+    const r=localStorage.getItem(SK);
+    if(r){const s=JSON.parse(r);if(s.hist)st.hist=s.hist;if(s.freeMode)freeMode=s.freeMode;updatePB();applyMode();}
+  }catch(e){}
+}
+
+function save(){
+  try{
+    localStorage.setItem(SK,JSON.stringify({hist:st.hist,freeMode}));
+    document.getElementById('saveTag').textContent='✓ '+new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){}
+}
+
+function toggleMode(){freeMode=!freeMode;applyMode();save();}
+
+function applyMode(){
+  document.getElementById('freeBanner').style.display=freeMode?'flex':'none';
+  document.getElementById('modeBtn').textContent=freeMode?'🔒 Modo progreso':'🔓 Modo libre';
+}
 
 function updatePB(){
   if(!st.hist.length){document.getElementById('pbLbl').textContent='Progreso general: empieza el Cap. 1';return;}
-  const bests=[0,1,2].map(ch=>{const h=st.hist.filter(x=>x.ch===ch);return h.length?Math.max(...h.map(x=>x.pct)):0;});
-  const avg=Math.round(bests.reduce((a,b)=>a+b,0)/3);
-  document.getElementById('pbFill').style.width=Math.max(2,avg)+'%';
-  document.getElementById('pbLbl').textContent='Progreso general: '+avg+'% promedio entre capítulos';
+  const b0=st.hist.filter(h=>h.ch===0);
+  const best=b0.length?Math.max(...b0.map(h=>h.pct)):0;
+  document.getElementById('pbFill').style.width=Math.max(2,Math.round(best*0.33))+'%';
+  document.getElementById('pbLbl').textContent='Cap.1: mejor puntaje '+best+'% | Cap.2 y 3: próximamente';
 }
 
-function unlockTabs(){
-  const b1=st.hist.find(h=>h.ch===0&&h.pct>=80);
-  const b2=st.hist.find(h=>h.ch===1&&h.pct>=80);
-  if(b1){const el=document.getElementById('ch1tab');el.classList.remove('locked');el.onclick=function(){showCh(1,this);};}
-  if(b2){const el=document.getElementById('ch2tab');el.classList.remove('locked');el.onclick=function(){showCh(2,this);};}
+function canAccess(ch){
+  if(freeMode||ch===0||ch===3)return true;
+  if(ch===1){return!!st.hist.find(h=>h.ch===0&&h.pct>=80);}
+  if(ch===2){return!!st.hist.find(h=>h.ch===1&&h.pct>=80);}
+  return false;
 }
 
 function showCh(i,btn){
+  document.getElementById('lockBanner').style.display='none';
+  if(!canAccess(i)){document.getElementById('lockBanner').style.display='block';return;}
   ['ch0','ch1','ch2','ch3'].forEach((id,j)=>{document.getElementById(id).style.display=j===i?'block':'none';});
   document.querySelectorAll('.ch-tab').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   st.ch=i;
   if(i===3)renderHist();
-  else{resetQ();renderQ(i);}
+  else if(i===0){resetQ();renderQ();}
 }
 
 function showSec(ch,s,btn){
@@ -302,31 +944,31 @@ function showSec(ch,s,btn){
   panel.querySelectorAll('.sec-btn').forEach(x=>x.classList.remove('active'));
   document.getElementById('s'+ch+s).classList.add('on');
   if(btn)btn.classList.add('active');
-  if(s==='c')renderQ(ch);
+  if(s==='d')renderQ();
 }
 
 function resetQ(){st.cur=0;st.sc=0;st.hts=3;st.stk=0;st.ans=false;st.wr=[];}
 
-function renderQ(ch){
-  const area=document.getElementById('qArea'+ch);
+function renderQ(){
+  const area=document.getElementById('qArea0');
   if(!area)return;
-  if(st.cur>=QS[ch].length){renderScore(area,ch);return;}
-  const q=QS[ch][st.cur];
+  if(st.cur>=EXAM.length){renderScore(area);return;}
+  const q=EXAM[st.cur];
   const hh=Array.from({length:3},(_,i)=>'<span style="font-size:16px">'+(i<st.hts?'❤️':'🤍')+'</span>').join('');
   area.innerHTML=`
     <div class="hearts">${hh}</div>
     <div class="streak-bar"><span style="font-size:16px">🔥</span><strong>${st.stk}</strong>&nbsp;racha correcta</div>
-    <div class="q-num">Pregunta ${st.cur+1} de ${QS[ch].length}</div>
+    <div class="q-num">Pregunta ${st.cur+1} de ${EXAM.length} &nbsp;|&nbsp; Necesitas 12/15 para pasar</div>
     <div class="q-txt">${q.t}</div>
-    <div class="opts" id="opts">${q.o.map((o,i)=>`<button class="opt" onclick="ansQ(${i},${ch})">${o}</button>`).join('')}</div>
+    <div class="opts" id="opts">${q.o.map((o,i)=>`<button class="opt" onclick="ansQ(${i})">${o}</button>`).join('')}</div>
     <div class="fb" id="fb"></div>
-    <button class="nxt" id="nxt" onclick="nextQ(${ch})">${st.cur===QS[ch].length-1?'Ver resultados':'Siguiente pregunta'}</button>`;
+    <button class="nxt" id="nxt" onclick="nextQ()">${st.cur===EXAM.length-1?'Ver resultados':'Siguiente pregunta'}</button>`;
   st.ans=false;
 }
 
-function ansQ(i,ch){
+function ansQ(i){
   if(st.ans)return;st.ans=true;
-  const q=QS[ch][st.cur];
+  const q=EXAM[st.cur];
   const opts=document.querySelectorAll('.opt');
   const fb=document.getElementById('fb');
   const nxt=document.getElementById('nxt');
@@ -336,58 +978,72 @@ function ansQ(i,ch){
   nxt.classList.add('on');
 }
 
-function nextQ(ch){st.cur++;renderQ(ch);}
+function nextQ(){st.cur++;renderQ();}
 
-function renderScore(area,ch){
-  const pct=Math.round(st.sc/QS[ch].length*100);
-  const entry={ch,sc:st.sc,tot:QS[ch].length,pct,date:new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'}),time:new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})};
+function renderScore(area){
+  const pct=Math.round(st.sc/EXAM.length*100);
+  const passed=st.sc>=12;
+  const entry={ch:0,sc:st.sc,tot:EXAM.length,pct,date:new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'}),time:new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})};
   st.hist.unshift(entry);if(st.hist.length>30)st.hist=st.hist.slice(0,30);
-  save();updatePB();if(pct>=80)unlockTabs();
-  const msg=pct===100?'¡Perfecto!':pct>=80?'¡Muy bien!':pct>=60?'Buen intento':'Sigue practicando';
-  const chN=['Cap. 1','Cap. 2','Cap. 3'];
-  const badges=[{l:'Sin errores',on:st.wr.length===0},{l:'Racha x3',on:st.stk>=3},{l:chN[ch]+' hecho',on:true}];
-  const nextBtn=ch<2&&pct>=80?`<button class="btn-pri" onclick="document.querySelectorAll('.ch-tab')[${ch+1}].click()">Siguiente capítulo →</button>`:'';
+  save();updatePB();
+  const msg=pct===100?'¡Perfecto!':passed?'¡Aprobado! Cap. 2 desbloqueado':pct>=60?'Casi — repasa y vuelve a intentar':'Repasa la teoría y ejercicios';
+  const badges=[{l:'Sin errores',on:st.wr.length===0},{l:'Racha x5',on:st.stk>=5},{l:'Aprobado ≥80%',on:passed}];
   area.innerHTML=`<div class="score-area">
-    <div class="score-big">${st.sc}/${QS[ch].length}</div>
-    <div class="score-sub">${msg} — ${pct}% de respuestas correctas</div>
+    <div class="score-big">${st.sc}/${EXAM.length}</div>
+    <div class="score-sub" style="color:${passed?'#2e7d32':'#c62828'}">${msg}</div>
     <div class="badges">${badges.map(b=>`<span class="bdg ${b.on?'on':''}">${b.on?'✓ ':''}${b.l}</span>`).join('')}</div>
-    ${st.wr.length?`<p style="font-size:12px;color:#888;margin-bottom:1rem">${st.wr.length} error(es) — repasa esos temas en la lección.</p>`:''}
-    <div class="btn-row"><button class="btn-sec" onclick="resetQ();renderQ(${ch})">Repetir</button>${nextBtn}</div>
+    ${st.wr.length?`<p style="font-size:12px;color:#888;margin-bottom:1rem">${st.wr.length} error(es) — regresa a la teoría o ejercicios a repasar esos temas.</p>`:''}
+    <div class="btn-row">
+      <button class="btn-sec" onclick="resetQ();renderQ()">Repetir examen</button>
+      ${passed?'<button class="btn-pri" onclick="showSec(0,\'a\',document.querySelectorAll(\'.sec-btn\')[0])">Ver teoría Cap. 2 →</button>':''}
+    </div>
   </div>`;
 }
 
 function renderHist(){
   const el=document.getElementById('histList');
-  if(!st.hist.length){el.innerHTML='<p class="empty">Aún no has completado ninguna práctica.</p>';return;}
+  if(!st.hist.length){el.innerHTML='<p style="font-size:13px;color:#888;padding:.5rem 0">Aún no has completado ningún examen.</p>';return;}
   const chN=['Cap.1','Cap.2','Cap.3'];
-  el.innerHTML=st.hist.map(h=>`<div class="hist-row"><div><div class="hist-sc">${chN[h.ch]} — ${h.sc}/${h.tot} correctas</div><div class="hist-dt">${h.date} · ${h.time}</div></div><span class="pct-tag ${h.pct>=80?'pg':h.pct>=60?'pm':'pb2'}">${h.pct}%</span></div>`).join('');
+  el.innerHTML=st.hist.map(h=>`<div class="hist-row"><div><div class="hist-sc">${chN[h.ch]||'Cap.'+(h.ch+1)} — ${h.sc}/${h.tot} correctas</div><div class="hist-dt">${h.date} · ${h.time}</div></div><span class="pct-tag ${h.pct>=80?'pg':h.pct>=60?'pm':'pb2'}">${h.pct}%</span></div>`).join('');
 }
 
-function resetAll(){if(confirm('¿Borrar todo el progreso?')){st.hist=[];try{localStorage.removeItem(SK);}catch(e){}updatePB();renderHist();document.getElementById('ch1tab').classList.add('locked');document.getElementById('ch1tab').onclick=null;document.getElementById('ch2tab').classList.add('locked');document.getElementById('ch2tab').onclick=null;}}
+function resetAll(){if(confirm('¿Borrar todo el progreso?')){st.hist=[];try{localStorage.removeItem(SK);}catch(e){}updatePB();renderHist();}}
 
-function calcOhm(){
-  const sliders=document.querySelectorAll('#s0b input[type=range]');
-  if(!sliders.length)return;
-  const v=+sliders[0].value,r=+sliders[1].value;
-  document.getElementById('oV').textContent=v+' V';
-  document.getElementById('oR').textContent=r+' Ω';
-  document.getElementById('oI').textContent=(v/r).toFixed(2);
-  document.getElementById('oP').textContent=Math.round(v*v/r);
-  document.getElementById('oTip').textContent=v===12&&r===6?'Igual al ejemplo del libro: batería LTH 12V con 6Ω. I = V/R = 2A.':'I = V/R = '+v+'/'+r+' = '+(v/r).toFixed(2)+' A. P = V²/R = '+Math.round(v*v/r)+' W.';
+// Ejercicios abiertos
+function checkOpen(btn,answer,explanation){
+  const ej=btn.closest('.ej');
+  const input=ej.querySelector('.ej-input');
+  const fb=ej.querySelector('.ej-fb');
+  const val=input.value.trim().toLowerCase().replace(/\s+/g,' ');
+  const ans=answer.toLowerCase();
+  const ok=val.includes(ans)||ans.includes(val.replace(/[^\d.]/g,''));
+  fb.className='ej-fb '+(ok?'ok':'no')+' on';
+  fb.innerHTML=ok?'<strong>✓ Correcto!</strong> '+explanation:'<strong>✗ Revisa tu cálculo.</strong> '+explanation;
 }
 
-function calcSerie(){
-  const sliders=document.querySelectorAll('#s1b input[type=range]');
-  if(!sliders.length)return;
-  const r1=+sliders[0].value,r2=+sliders[1].value,r3=+sliders[2].value,v=+sliders[3].value;
-  const rt=r1+r2+r3;const i=v/rt;
-  document.getElementById('sR1').textContent=r1+' Ω';
-  document.getElementById('sR2').textContent=r2+' Ω';
-  document.getElementById('sR3').textContent=r3+' Ω';
-  document.getElementById('sVV').textContent=v+' V';
-  document.getElementById('sRT').textContent=rt;
-  document.getElementById('sI').textContent=i.toFixed(2);
-  document.getElementById('sTip').textContent=r1===4&&r2===4&&r3===4&&v===12?'¡Igual al ejemplo del libro! Rs=12Ω, I=1A. Página 27.':'Rs = '+r1+'+'+r2+'+'+r3+' = '+rt+'Ω. I = '+v+'/'+rt+' = '+i.toFixed(2)+'A.';
+// Ejercicios opciones
+function checkOpt(btn,correct,explanation){
+  const ej=btn.closest('.ej');
+  if(ej.querySelector('.ej-opt.ok')||ej.querySelector('.ej-opt.no'))return;
+  const fb=ej.querySelector('.ej-fb');
+  const allBtns=ej.querySelectorAll('.ej-opt');
+  allBtns.forEach(b=>b.disabled=true);
+  if(correct){
+    btn.classList.add('ok');
+    fb.className='ej-fb ok on';
+    fb.innerHTML='<strong>✓ Correcto!</strong> '+explanation;
+  }else{
+    btn.classList.add('no');
+    fb.className='ej-fb no on';
+    fb.innerHTML='<strong>✗ No exactamente.</strong> '+explanation;
+  }
+}
+
+function resetOpt(lnk){
+  const ej=lnk.closest('.ej');
+  ej.querySelectorAll('.ej-opt').forEach(b=>{b.classList.remove('ok','no');b.disabled=false;});
+  const fb=ej.querySelector('.ej-fb');
+  if(fb){fb.className='ej-fb';fb.innerHTML='';}
 }
 
 load();
